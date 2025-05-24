@@ -39,24 +39,42 @@ public class SalvarTXT {
                 String nomeDoArquivo = scan.nextLine();
 
                 try {
-                    FileWriter escritor = new FileWriter("dados/"+nomeDoArquivo);
                     System.out.println("=================");
                     System.out.println("= Conteudo  TXT =");
                     System.out.println("=================");
                     String conteudo = scan.nextLine();
-                    escritor.write(conteudo);
-                    escritor.close();
-                    System.out.println("=================");
-                    System.out.println("= S U C E S S O =");
-                    System.out.println("=================");
+                    
+                    System.out.println("=======================================");
+                    System.out.println("= Você confirma a criação do arquivo? =");
+                    System.out.println("= 1 - Sim                             =");
+                    System.out.println("= 2 - Não                             =");
+                    System.out.println("=======================================");
+                    int conf = scan.nextInt();
+                    if (conf == 1) {
+                        
+                        FileWriter escritor = new FileWriter("dados/"+nomeDoArquivo);
+                        escritor.write(conteudo);
+                        escritor.close();
+
+                        System.out.println("=================");
+                        System.out.println("= S U C E S S O =");
+                        System.out.println("=================");
+
+                        lista.addNode(nomeDoArquivo);
+                        
+                    } else {
+                        
+                        System.out.println("=================");
+                        System.out.println("=   F A L H A   =");
+                        System.out.println("=================");
+                    }
+
                 } catch (IOException e) {
                     System.out.println("=================");
                     System.out.println("=   F A L H A   =");
                     System.out.println("=================");
                     e.printStackTrace();
                 }
-
-                lista.addNode(nomeDoArquivo);
             }
             else if (opt == 2) {
                 lista.showList();

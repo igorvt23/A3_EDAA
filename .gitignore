@@ -3,6 +3,3 @@
 
 # Ignorar arquivos de backup temporários
 *.ser
-
-# Ignorar diretórios específicos (se quiser)
-# /dados/
