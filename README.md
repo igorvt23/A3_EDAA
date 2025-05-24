@@ -1,5 +1,5 @@
 <h1 align="center">Sistema de Gestão e Busca de Documentos Compressos com Índice Dinâmico</h1>
-<p align="center">Avaliação 3 a UC: <small>Estruturas de Dados e análise de algoritmos</small></p>
+<p align="center">Avaliação 03 da UC: <small>Estruturas de Dados e análise de algoritmos - UniRitter</small></p>
 
 <p align="center">
   <a href="#-objetivos">Objetivos</a>&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;
