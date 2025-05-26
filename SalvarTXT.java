@@ -53,6 +53,7 @@ public class SalvarTXT {
                     if (conf == 1) {
                         
                         FileWriter escritor = new FileWriter("dados/"+nomeDoArquivo);
+                        long tamanho = new File("dados/" + nomeDoArquivo).length();
                         escritor.write(conteudo);
                         escritor.close();
 
@@ -60,7 +61,7 @@ public class SalvarTXT {
                         System.out.println("= S U C E S S O =");
                         System.out.println("=================");
 
-                        lista.addNode(nomeDoArquivo);
+                        lista.addNode(nomeDoArquivo, conteudo, java.time.LocalDateTime.now().toString(), tamanho);
                         
                     } else {
                         
@@ -78,6 +79,64 @@ public class SalvarTXT {
             }
             else if (opt == 2) {
                 lista.showList();
+                
+                System.out.println("====================================");
+                System.out.println("= Você deseja abrir algum arquivo? =");
+                System.out.println("= 1 - Sim =");
+                System.out.println("= 2 - Não =");
+                System.out.println("====================================");                
+                int optConf = scan.nextInt();
+
+                if (optConf == 1) {
+                    System.out.println("====================================");
+                    System.out.println("= Informe o índice do arquivo: =");
+                    System.out.println("====================================");                
+                    int indAbrirArq = scan.nextInt();
+                    int total = lista.size();
+
+                    if (total >= indAbrirArq) {
+                        boolean existemArquivos = lista.showEspecifico(indAbrirArq);
+                        if (existemArquivos) {
+                            System.out.println("====================================");
+                            System.out.println("= Você deseja abrir algum arquivo? =");
+                            System.out.println("= 1 - Excluir =");
+                            System.out.println("= 2 - Recomprimir =");
+                            System.out.println("= 3 - Visualizar ìndices =");
+                            System.out.println("= 0 - Voltar =");
+                            System.out.println("====================================");                
+                            int indAcaoArqui = scan.nextInt();
+                            if(indAcaoArqui == 1){
+                                // add funcao para excluir
+                                System.out.println("===========================");
+                                System.out.println("=  Excluindo   =");
+                                System.out.println("===========================");
+
+                            } else if (indAcaoArqui == 2) {
+                                // add funcao para recomprimir
+                                System.out.println("===========================");
+                                System.out.println("=  Recomprimir            ="); //?
+                                System.out.println("===========================");
+                                
+                            } else if (indAcaoArqui == 3) {
+                                System.out.println("===========================");
+                                System.out.println("=  Índices:             " + indAbrirArq + "   ="); // seria isso?
+                                System.out.println("===========================");
+                                
+                            } else {
+                                System.out.println("=====================");
+                                System.out.println("=     Voltando      =");
+                                System.out.println("=====================");
+                            }
+                        }
+                        
+                    } else {
+                        System.out.println("=====================");
+                        System.out.println("= Arquivo Indefinido =");
+                        System.out.println("=====================");
+                    }
+
+                    
+                }
             }
             else if (opt == 3) {
                 System.out.println("Digite a palavra-chave:");
@@ -125,7 +184,7 @@ public class SalvarTXT {
                 No ordenada = null;
                 temp = lista.start;
                 while (temp != null) {
-                    No novo = new No(temp.indice);
+                    No novo = new No(temp.indice, temp.conteudo, temp.data, temp.tamanho);
                     if (ordenada == null || novo.indice.compareTo(ordenada.indice) < 0) {
                         novo.next = ordenada;
                         ordenada = novo;
