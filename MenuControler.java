@@ -2,7 +2,7 @@ import java.util.Scanner;
 
 public class MenuControler {
     Scanner scan = new Scanner(System.in);
-    MenuView menu = new MenuView(50);
+    MenuView menu = new MenuView(76);
     
     public void start() {
         menu.start();// falta a função de leitura
