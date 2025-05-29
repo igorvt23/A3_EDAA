@@ -1,53 +1,90 @@
-import java.util.Scanner;
+import Lista.ListService;
 
 public class MenuControler {
-    Scanner scan = new Scanner(System.in);
-    MenuView menu = new MenuView(76);
+    MenuView menu;
+    ListService list;
+    TextStorage storage;
+
+    MenuControler (MenuView painter) {
+        this.menu = painter;
+        this.list = new ListService();
+        this.storage = new TextStorage();
+    }
     
     public void start() {
-        menu.start();// falta a função de leitura
+        menu.cls();
+        menu.start();
         startMenu();
     }
 
     public void startMenu() {
         while (true) {    
-            menu.startMenu();
-            int opt = scan.nextInt();
-            scan.nextLine();
+            int opt = menu.startMenu();
             switch (opt) {
-                case 1 -> menuCadastro();
-                //case 2 -> 
-                //case 3 ->
-                //case 4 ->
+                case 1 -> Cadastro();
+                case 2 -> showList();
+                case 3 -> saveList();
+                case 4 -> removeNode();
                 //case 5 ->
                 //case 0 ->
-                case 7 -> {
-                    for(int a = 0; a < 10; a++) {
-                        menu.teste();
-                    }
+                case 6 -> showList();
+                case 7 -> saveList();
+                case 8 -> removeNode();
+                case 10 ->  menu.teste(); //casee usado para testes de impressão deve ser apagado ppsteriormente
+                case 9 -> {
+                    menu.end();
+                    return;
                 }
                 default -> menu.optIvalid();
             }
         }
     }
     
-    public void menuCadastro() {
+    // Quando novas estruturasd de dados forem adicionadas cadastro deve ser atualizado para englobar elas,
+    // talvez seja util crirar uma função que gera estruturas com bse nos txt's da pasta dados/txt 
+    public void Cadastro() {
         menu.cls();
-        menu.cadastro1();
-        String title = scan.nextLine();
-        if (title.equals(-0)) {
+        String title = menu.cadastro1();
+        // deve ser alterado para apos o menu de cadastro assim como está no salvar txt tnks @igorvt23
+        if (title.equals("-0")) {
             menu.cancel();
-            scan.nextLine();
+            menu.geString();
             menu.cls();
             return;
         }
-        // logica de criação do txt
-        // inicar writer, com nome do titulo
-        menu.cadastro2();
-        String description = scan.nextLine();
-        // inserir a descrição no writer e salvar o txt
+        String description = menu.cadastro2();
+        storage.saveTxt(title, description);
+        list.addNode(title);
         menu.cadastro3();
-        scan.nextLine();
+        menu.pause();
+        menu.cls();
+    }
+
+    // Teoricamente cada estutura tera um show diferente, é necessario  dar um jeito de fazer com q ele trabalhe com o view de menus ao receber confirmações da lista
+    // Ideia atual ele passa atraves de um for os elementos da lista na ordem para serem montados em tela
+    public void showList() {
+        menu.cls();
+        list.showList();
+        menu.geString();
+        menu.cls();
+    }
+
+    // Provavelmente deveria estar no final de todas as alterações feitas nas estruturas de dados
+    public void saveList() {
+        menu.cls();
+        list.saveList();
+        menu.geString();
+        menu.cls();
+    }
+
+    // Tericamente se havera so um "add" tmb deve ter apenas um "remove" (discutir a logica disto)
+    public void removeNode(){
+        menu.cls();
+        System.out.println("Digite o nome do arquiv a ser deletado");
+        String dado = menu.geString();
+        storage.deleteTxt(dado);
+        list.removeNode(dado);
+        menu.geString();
         menu.cls();
     }
 }

@@ -1,9 +1,11 @@
+package SalvarTXToriginal;
+
 //Lista encadeada simples
 import java.io.File;
 import java.io.Serializable;
 
 public class List implements Serializable {
-    No start;
+    public No start;
 
     public void addNode(String dado, String conteudo, String data, long tamanho) {
         No newNode = new No(dado, conteudo, data, tamanho);
