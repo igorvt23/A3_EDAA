@@ -1,14 +1,23 @@
+import java.util.InputMismatchException;
+import java.util.Scanner;
+
 public class MenuView {
     int tamanhoMenu;
+    Scanner scan;
     
-    MenuView(int tamanho) {
+    MenuView(int tamanho, Scanner scan) {
         this.tamanhoMenu = tamanho;
+        this.scan = scan;
     }
 
     public String centralized(String text, int totalSpace) {
         int realSpcae = totalSpace - text.length();
         int blankSpace = realSpcae/2;
         return (" ".repeat(blankSpace)+text+" ".repeat(blankSpace)); 
+    }
+
+    public String righAling(String text, int totalSpace) {
+        return String.format("%-"+totalSpace+"s", text);
     }
 
     public void printLine(String text, Boolean inside) {
@@ -25,26 +34,46 @@ public class MenuView {
         System.out.flush();
     }
 
+    public void pause() {
+        geString();
+    }
+
     public void cancel() {
         printLine("=", false);
         printRight(centralized("C A N C E L A N D O", tamanhoMenu-4));
         printLine("=", false);
     }
 
+    public int getInt() {
+        while (true) {
+            try {
+                int opt = scan.nextInt();
+                scan.nextLine();
+                return opt;
+            } catch (InputMismatchException e) {
+                scan.nextLine();
+                printRight(" > FORMATO de digitação invalido!!!");
+            }
+        }
+    }
+
+    public String geString() {
+        return scan.nextLine();
+    }
+
     public void optIvalid() {
-        System.out.println("=".repeat(tamanhoMenu));
-        System.out.printf("= %-"+(tamanhoMenu-4)+"s =\n", "Opcao invalida Por Favor digite uma opcao valida");
-        System.out.println("=".repeat(tamanhoMenu));
+        printLine("=", false);
+        printRight("Opcao invalida Por Favor digite uma opcao valida");
+        printLine("=", false);
     }
 
     public void start() {
-        System.out.println("=".repeat(tamanhoMenu));
-        System.out.printf("= %72s =\n", centralized("P R O G A M A   I N I C I A D O", tamanhoMenu-4));
-        System.out.println("=".repeat(tamanhoMenu));
+        printLine("=", false);
+        printRight(centralized("P R O G A M A   I N I C I A D O", tamanhoMenu-4));
+        printLine("=", false);
     }
 
-    // opcao 2 escolher uma das 3
-    public void startMenu() {
+    public int startMenu() {
         printLine("=", false);
         printRight(centralized("M E N U  P R I N C I P A L", tamanhoMenu-4));
         printLine("-", true);
@@ -55,32 +84,25 @@ public class MenuView {
         printRight("5 - Gerenciar índice ou compressão");
         printRight("0 - Fechar o progama");
         printLine("=", false);
+        System.out.print("=  > Digite a opcao desejada: ");
+        return getInt();
     }
 
-    //opcao 1
-    // public void startMenu() {
-    //     System.out.println("=".repeat(tamanhoMenu));
-    //     System.out.printf("= %72s =\n", centralized("M E N U  P R I N C I P A L", tamanhoMenu-4));
-    //     System.out.println("= "+"-".repeat((tamanhoMenu-4))+" =");
-    //     System.out.printf("= %-"+(tamanhoMenu-4)+"s =\n", "1 - Cadastrar novo documento");
-    //     System.out.printf("= %-"+(tamanhoMenu-4)+"s =\n", "2 - Listar documentos cadastrados");
-    //     System.out.printf("= %-"+(tamanhoMenu-4)+"s =\n", "3 - Buscar por palavra-chave");
-    //     System.out.printf("= %-"+(tamanhoMenu-4)+"s =\n", "4 - Estatísticas e ordenação");
-    //     System.out.printf("= %-"+(tamanhoMenu-4)+"s =\n", "5 - Gerenciar índice ou compressão");
-    //     System.out.println("=".repeat(tamanhoMenu));
-    // }
-
-    public void cadastro1() {
-        System.out.println("=".repeat(tamanhoMenu));
-        System.out.printf("= %72s =\n", centralized("C A D A S T R O   D E  D O C U M E N T O", tamanhoMenu-4));
-        System.out.println("= "+"-".repeat((tamanhoMenu-4))+" =");
-        System.out.printf("= %-"+(tamanhoMenu-4)+"s =\n", "Novo cadastro iniciado (-0 para cancelar):");
-        System.out.printf("= %-"+(tamanhoMenu-4)+"s =\n", " > Digite o titulo do Novo .txt");
+    public String cadastro1() {
+        printLine("=", false);
+        printRight(centralized("C A D A S T R O   D E  D O C U M E N T O", tamanhoMenu-4));
+        printLine("-", true);
+        printRight("Novo cadastro iniciado (-0 para cancelar):");
+        printRight(" > Digite o titulo do Novo .txt");
+        System.out.print("=  > ");
+        return geString();
     }
 
-    public void cadastro2() {
-        System.out.println("= "+"-".repeat((tamanhoMenu-4))+" =");
-        System.out.printf("= %-"+(tamanhoMenu-4)+"s =\n", " > Digite a descricao do documento: ");   
+    public String cadastro2() {
+        printLine("-", true);
+        printRight(" > Digite a descricao do documento:");
+        System.out.print("=  > ");
+        return geString();
     }
 
     public void cadastro3() {
@@ -89,8 +111,23 @@ public class MenuView {
         printLine("=", false);
     }
 
+    // public void showList(String dado, boolean last) {
+    // }
+
+    public void end() {
+        printLine("=", false);
+        printRight(centralized("P R O G A M A  E N C E R R A D O", tamanhoMenu-4));
+        printLine("=", false);
+    }
+
     public void  teste() {
-        printRight(centralized("COLUNA A", (tamanhoMenu-4)/2)+centralized("COLUNA B", (tamanhoMenu-4)/2));
+        printLine("=", false);
+        printRight(centralized("COLUNA A", (tamanhoMenu-6)/2)+"| "+centralized("COLUNA B", (tamanhoMenu-6)/2));
+        printLine("-", true);
+        for(int a = 0; a < 10; a++) {
+            printRight(righAling("teste de a"+a, (tamanhoMenu-8)/2)+"| "+righAling("teste de b"+a, (tamanhoMenu-6)/2));
+        }
+        printLine("=", false);
     }
 
     // Não tem pq existir afinal tera ser feito uma função que mostra o txt q pode ser usada no lugar dela
@@ -113,4 +150,31 @@ public class MenuView {
 // System.out.printf("= %-"+(tamanhoMenu-4)+"s =\n", "");
 // System.out.println("=".repeat(tamanhoMenu));
 
-// talves criar uma dunção que recebe o titulo e as opçoes de um menu
+// talves criar uma função que recebe o titulo e as opçoes de um menu
+
+// MENU Q TROCA DE OPÇÂO AO USAR W para cima E S para baixo, mas precisa ainda de enter ent talvez n valha a a pena!
+// public void testeMenu1() {
+//     int opt = 1;
+//     String input; 
+
+//     do {
+//         cls();
+//         testeMultoptions(opt);
+//         System.out.println("w sobe, s dece, q sai!");
+//         input = scan.nextLine();
+
+//         if (input.equalsIgnoreCase("W") && opt > 1) opt--;
+//         if (input.equalsIgnoreCase("s") && opt < 3) opt++;
+
+
+//     } while(!input.equalsIgnoreCase("q"));
+// }
+
+
+// public void testeMultoptions(int opt) {
+//     printLine("=", false);
+//     printRight(opt == 1 ? "> 1 - opt 1" : "1 - opt 1");
+//     printRight(opt == 2 ? "> 2 - opt 2" : "2 - opt 2");
+//     printRight(opt == 3 ? "> 3 - opt 3" : "3 - opt 3");
+//     printLine("=", false);
+// }
