@@ -21,12 +21,27 @@ public class ListService {
         }
     }
 
-    public void addNode(String dado) {
-        list.addNode(dado);
+    public void addNode(String dado, String data) {
+        list.addNode(dado, data);
     }
 
     public void showList() {
         list.showList();
+        int totalArquivos = list.countList();
+        if (totalArquivos > 0) {
+            String arquivo = list.chooseFile(totalArquivos);
+            if (arquivo != null) {
+                list.chosenFile(arquivo);
+                int acoes = list.actionsFile();
+                switch (acoes) {
+                    // case 1 -> list.removeNode();
+                    // case 2 -> list.recomprimir();
+                    // case 3 -> list.visualizarIndice();
+                    default -> System.out.println("Ação inválida!");
+                }
+            }
+            
+        }
     }
 
     public void removeNode(String dado) {

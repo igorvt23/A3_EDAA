@@ -22,14 +22,17 @@ public class MenuControler {
             int opt = menu.startMenu();
             switch (opt) {
                 case 1 -> Cadastro();
-                case 2 -> showList();
-                case 3 -> saveList();
-                case 4 -> removeNode();
+                case 2 -> showList(); // Falta abrir e mostrar mais infos
+                case 3 -> saveList(); // Falta mostrar trecho e número de ocorrências
+                // case 4 -> estatisticasEOrdenacao();
+                // case 4 -> removeNode();
                 //case 5 ->
                 //case 0 ->
-                case 6 -> showList();
-                case 7 -> saveList();
-                case 8 -> removeNode();
+                // Compressão de huffman, ordenação, estatísticas e busca por palavra-chave
+                
+                // case 6 -> showList();
+                // case 7 -> saveList();
+                // case 8 -> removeNode();
                 case 10 ->  menu.teste(); //casee usado para testes de impressão deve ser apagado ppsteriormente
                 case 9 -> {
                     menu.end();
@@ -54,7 +57,7 @@ public class MenuControler {
         }
         String description = menu.cadastro2();
         storage.saveTxt(title, description);
-        list.addNode(title);
+        list.addNode(title, java.time.LocalDateTime.now().toString()); // Pegando a data atual
         menu.cadastro3();
         menu.pause();
         menu.cls();
@@ -73,14 +76,14 @@ public class MenuControler {
     public void saveList() {
         menu.cls();
         list.saveList();
-        menu.geString();
+        menu.pause();
         menu.cls();
     }
 
     // Tericamente se havera so um "add" tmb deve ter apenas um "remove" (discutir a logica disto)
     public void removeNode(){
         menu.cls();
-        System.out.println("Digite o nome do arquiv a ser deletado");
+        System.out.println("Digite o nome do arquivo a ser deletado");
         String dado = menu.geString();
         storage.deleteTxt(dado);
         list.removeNode(dado);
