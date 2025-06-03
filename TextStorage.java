@@ -29,4 +29,8 @@ public class TextStorage {
             System.out.println("Arquivo não encontrado!");
         }
     }
+
+    // Ler o arquivo
+    // Criar um obj e retornar com os atributos do txt para as outras classes trabalharem com ele
+    // Criando um novo txt comprimido
 }

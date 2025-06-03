@@ -1,12 +1,16 @@
 package Lista;
-
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
+import java.io.IOException;
 import java.io.Serializable;
+import java.util.Scanner;
 
 public class List implements Serializable{
     Node start;
 
-    public void addNode(String dado) {
-        Node newNode = new Node(dado);
+    public void addNode(String dado, String data) {
+        Node newNode = new Node(dado, data);
 
         if (start == null) {
             start = newNode;
@@ -25,14 +29,108 @@ public class List implements Serializable{
         
         while (temp != null) {
             if (temp.next == null) {
-                System.out.print(temp.data+"\n");  
+                System.out.print(temp.data+" - " + temp.date + "\n");  
             } else {
-                System.out.print(temp.data+", ");
+                System.out.print(temp.data+", - " + temp.date);
             }
             temp = temp.next;
         }
 
         System.out.println("Lista impressa com suceso!");
+    }
+
+    public int countList() {
+        if (start == null) {
+            return 0;
+        } else {
+            Node temp = start;
+            int count = 0;
+            while (temp != null) {
+                count++;
+                temp = temp.next;
+            }
+            return count;
+        }
+    }
+    
+    public String chooseFile(int count) {
+        Scanner scanner = new Scanner(System.in);
+        if (count == 0 || start == null) {
+            System.out.println("Lista vazia, não há arquivos escolhidos!");
+            return null;
+        }
+
+        Node temp = start;
+        int i = 0;
+        while (temp != null) {
+            System.out.printf("%d. %s - %s\n", i++, temp.data, temp.date);
+            temp = temp.next;
+        }
+
+        System.out.print("Escolha o índice do arquivo (0 para cancelar): ");
+        int choice;
+        try {
+            choice = Integer.parseInt(scanner.nextLine());
+        } catch (NumberFormatException e) {
+            System.out.println("Entrada inválida, operação cancelada.");
+            return null;
+        }
+
+        if (choice == 0) {
+            System.out.println("Operação cancelada.");
+            return null;
+        }
+
+        if (choice < 0 || choice >= count) {
+            System.out.println("Escolha inválida, operação cancelada.");
+            return null;
+        }
+
+        // Buscar o Node correspondente ao índice escolhido
+        temp = start;
+        for (i = 0; i < choice; i++) {
+            temp = temp.next;
+        }
+
+        return temp.data; // Retorna o "título" do txt (nome do arquivo)
+    }
+
+    public void chosenFile(String title) {
+        File file = new File("dados/txt/"+title);
+        if (file.exists()) {
+            File fileComprimido = new File("dados/zip/"+title);
+            System.out.println(file.getName() + " - " + file.length() + " bytes");
+            
+            // Leitura do conteúdo do arquivo
+            try (BufferedReader reader = new BufferedReader(new FileReader(file))) {
+                String linha;
+                while ((linha = reader.readLine()) != null) {
+                    System.out.println("\""+linha+"\"");
+                }
+            } catch (IOException e) {
+                System.out.println("Erro ao ler o arquivo: " + e.getMessage());
+            }
+
+            // Verifica se existe versão comprimida
+            if (fileComprimido.exists()) {
+                System.out.println("Tamanho comprimido: " + fileComprimido.length() + " bytes");
+            }
+            
+        } else {
+            System.out.println("Arquivo não encontrado!");
+        }
+    }
+
+    public int actionsFile() {
+        
+        Scanner scanner = new Scanner(System.in);
+        int choice = Integer.parseInt(scanner.nextLine());
+        System.out.println("Você deseja abrir algum arquivo?");
+        System.out.println("1 - Excluir");
+        System.out.println("2 - Recomprimir");
+        System.out.println("3 - Visualizar ìndices");
+        System.out.println("0 - Voltar");
+        return choice;
     }
 
     public void removeNode(String dado) {
