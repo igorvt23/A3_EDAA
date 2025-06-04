@@ -10,6 +10,8 @@ public class MenuView {
         this.scan = scan;
     }
 
+    // funções usadas para printar o = x =  M E N U  = x = (l_l)
+
     public String centralized(String text, int totalSpace) {
         int realSpcae = totalSpace - text.length();
         int blankSpace = realSpcae/2;
@@ -34,16 +36,17 @@ public class MenuView {
         System.out.flush();
     }
 
-    public void pause() {
-        geString();
+    public String ajsutContent(String content) {
+        int tamMax = tamanhoMenu-4;
+        StringBuilder builder = new StringBuilder();
+        
+
+        
+        return builder.toString();
     }
 
-    public void cancel() {
-        printLine("=", false);
-        printRight(centralized("C A N C E L A N D O", tamanhoMenu-4));
-        printLine("=", false);
-    }
-
+    // funções que captura entradas do usuario 
+    
     public int getInt() {
         while (true) {
             try {
@@ -59,6 +62,18 @@ public class MenuView {
 
     public String geString() {
         return scan.nextLine();
+    }
+
+    public void pause() {
+        geString();
+    }
+    
+    // funções que imprimem menus e mensagens na tela q os formam
+
+    public void cancel() {
+        printLine("=", false);
+        printRight(centralized("C A N C E L A N D O", tamanhoMenu-4));
+        printLine("=", false);
     }
 
     public void optIvalid() {
@@ -117,6 +132,18 @@ public class MenuView {
         printLine("=", false);
     }
 
+    // data deveria ser string? int? float? bollean?  (ou é hoje pu não é hoje) // insira sua Figurinha pensativa aqui 
+    // public void imprimirTxt(String title, String content, ?String data?, ?long size?, ?long compresedSize?) {
+    public void imprimirTxt(String title, String content) {
+        printLine("=", false);
+        printRight(centralized(".txt: "+title, tamanhoMenu-4));
+        printLine("-", true);
+        
+        printLine("=", false);
+    }
+
+    // IMPRESSÕES EXPERIMENTAIS (testes das outras funções de maneira geral)
+
     public void  teste() {
         printLine("=", false);
         printRight(centralized("COLUNA A", (tamanhoMenu-6)/2)+"| "+centralized("COLUNA B", (tamanhoMenu-6)/2));
@@ -126,14 +153,6 @@ public class MenuView {
         }
         printLine("=", false);
     }
-
-    // Não tem pq existir afinal tera ser feito uma função que mostra o txt q pode ser usada no lugar dela
-    // public void menuCadastro3(String title, String descprition) {
-    //     System.out.println("= "+"-".repeat((tamanhoMenu-4))+" =");
-    //     System.out.printf("= %-"+(tamanhoMenu-4)+"s =\n", title);
-    //     System.out.printf("= %-"+(tamanhoMenu-4)+"s =\n", descprition);
-    //     System.out.println("=".repeat(tamanhoMenu));
-    // }
 }
 
 // tecnicas de menu q talvez sejam uteis
