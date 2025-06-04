@@ -111,9 +111,6 @@ public class MenuView {
         printLine("=", false);
     }
 
-    // public void showList(String dado, boolean last) {
-    // }
-
     public void end() {
         printLine("=", false);
         printRight(centralized("P R O G A M A  E N C E R R A D O", tamanhoMenu-4));

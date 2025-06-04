@@ -1,4 +1,10 @@
 import Lista.ListService;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.util.Scanner;
+import java.util.zip.GZIPOutputStream;
 
 public class MenuControler {
     MenuView menu;
@@ -22,7 +28,7 @@ public class MenuControler {
             int opt = menu.startMenu();
             switch (opt) {
                 case 1 -> Cadastro();
-                case 2 -> showList(); // Falta abrir e mostrar mais infos
+                case 2 -> showList();
                 case 3 -> saveList(); // Falta mostrar trecho e número de ocorrências
                 // case 4 -> estatisticasEOrdenacao();
                 // case 4 -> removeNode();
@@ -34,7 +40,7 @@ public class MenuControler {
                 // case 7 -> saveList();
                 // case 8 -> removeNode();
                 case 10 ->  menu.teste(); //casee usado para testes de impressão deve ser apagado ppsteriormente
-                case 9 -> {
+                case 0 -> {
                     menu.end();
                     return;
                 }
@@ -67,7 +73,18 @@ public class MenuControler {
     // Ideia atual ele passa atraves de um for os elementos da lista na ordem para serem montados em tela
     public void showList() {
         menu.cls();
-        list.showList();
+        int qtdArquivos = list.showList();
+
+        if(qtdArquivos > 0){
+            // Retorna a ação escolhida pelo usuário
+            int acao = actionsFile();
+            switch (acao) {
+                case 1 -> removeNode(); // Removendo o arquivo / No
+                case 2 -> compressTxt(qtdArquivos); // Comprimindo o arquivo (não testado)
+                // case 3 -> visualizarIndice(); // Visualizando o índice do arquivo
+                default -> System.out.println("Ação inválida!");
+            }
+        }
         menu.geString();
         menu.cls();
     }
@@ -80,7 +97,7 @@ public class MenuControler {
         menu.cls();
     }
 
-    // Tericamente se havera so um "add" tmb deve ter apenas um "remove" (discutir a logica disto)
+    // Teoricamente se havera so um "add" tbm deve ter apenas um "remove" (discutir a logica disto)
     public void removeNode(){
         menu.cls();
         System.out.println("Digite o nome do arquivo a ser deletado");
@@ -89,5 +106,45 @@ public class MenuControler {
         list.removeNode(dado);
         menu.geString();
         menu.cls();
+    }
+
+    public int actionsFile() {
+        Scanner scanner = new Scanner(System.in);
+        System.out.println("Você deseja realizar alguma ação?");
+        System.out.println("1 - Excluir");
+        System.out.println("2 - Recomprimir");
+        System.out.println("3 - Visualizar ìndices");
+        System.out.println("0 - Voltar");
+        int choice = Integer.parseInt(scanner.nextLine());
+        return choice;
+    }
+
+    public void compressTxt(int indiceArquivo) {
+        String nomeArquivo = list.getArquivo(indiceArquivo);
+
+        String inputFile = "dados/txt/" + nomeArquivo + ".txt";
+        String outputFile = "dados/zip/" + nomeArquivo + ".gz";
+
+        try {
+            File zipDir = new File("dados/zip/");
+            if (!zipDir.exists()) {
+                zipDir.mkdirs();
+            }
+
+            try (
+                FileInputStream fis = new FileInputStream(inputFile);
+                FileOutputStream fos = new FileOutputStream(outputFile);
+                GZIPOutputStream gzipOS = new GZIPOutputStream(fos)
+            ) {
+                byte[] buffer = new byte[1024];
+                int len;
+                while ((len = fis.read(buffer)) != -1) {
+                    gzipOS.write(buffer, 0, len);
+                }
+                System.out.println("Arquivo comprimido: " + outputFile);
+            }
+        } catch (IOException e) {
+            System.out.println("Erro ao comprimir o arquivo: " + e.getMessage());
+        }
     }
 }
