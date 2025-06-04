@@ -1,4 +1,6 @@
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 
@@ -28,6 +30,22 @@ public class TextStorage {
         } else {
             System.out.println("Arquivo não encontrado!");
         }
+    }
+
+    // talvez valha a pena criar um objeto doc para essa ocasião
+    public String readTxt(String title) {
+        StringBuilder content = new StringBuilder();
+
+        try (BufferedReader leitor = new BufferedReader(new FileReader("dados/txt/"+title))) {
+            String linha;
+            while ((linha = leitor.readLine()) != null) {
+                content.append(linha).append("\n");
+            }
+        } catch (IOException e) {
+            System.out.println("Erro ao ler o arquivo: " + e.getMessage());
+        }
+        if (content.length() > 0) content.setLength(content.length() - 1); // Remove o último '\n'
+        return content.toString();
     }
 
     // Ler o arquivo

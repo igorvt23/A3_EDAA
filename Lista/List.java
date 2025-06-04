@@ -24,6 +24,30 @@ public class List implements Serializable{
         }
     }
 
+    public void removeNode(String dado) {
+        if (start == null) {
+            System.out.println("Lista vazia impossivel remover No!");
+            return;
+        }
+        if (start.data.equals(dado)) {
+            start = start.next;
+            System.out.println("No removido com sucesso (start)");
+        } else {
+            Node temp = start, prev = null;
+            while (temp != null) {
+                if (temp.data.equals(dado)) {
+                    prev.next = temp.next;
+                    System.out.println("No removido com sucesso");
+                    return;
+                } else {
+                    prev = temp;
+                    temp = temp.next;
+                }
+            }
+            System.out.println("No com esse dado não encontrado!");
+        }
+    }
+
     public void showList() {
         Node temp = start;
         
@@ -119,30 +143,6 @@ public class List implements Serializable{
             
         } else {
             System.out.println("Arquivo não encontrado!");
-        }
-    }
-
-    public void removeNode(String dado) {
-        if (start == null) {
-            System.out.println("Lista vazia impossivel remover No!");
-            return;
-        }
-        if (start.data.equals(dado)) {
-            start = start.next;
-            System.out.println("No removido com sucesso (start)");
-        } else {
-            Node temp = start, prev = null;
-            while (temp != null) {
-                if (temp.data.equals(dado)) {
-                    prev.next = temp.next;
-                    System.out.println("No removido com sucesso");
-                    return;
-                } else {
-                    prev = temp;
-                    temp = temp.next;
-                }
-            }
-            System.out.println("No com esse dado não encontrado!");
         }
     }
 }

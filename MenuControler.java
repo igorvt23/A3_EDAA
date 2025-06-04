@@ -29,7 +29,7 @@ public class MenuControler {
             switch (opt) {
                 case 1 -> Cadastro();
                 case 2 -> showList();
-                case 3 -> saveList(); // Falta mostrar trecho e número de ocorrências
+                case 3 -> saveList(); // Falta mostrar trecho e número de ocorrências; DEVE SER descutido a logica de quando o progama deve salvar em memoria alterações na lista
                 // case 4 -> estatisticasEOrdenacao();
                 // case 4 -> removeNode();
                 //case 5 ->
@@ -44,6 +44,7 @@ public class MenuControler {
                     menu.end();
                     return;
                 }
+                case 11 -> printTxt("teste_01");
                 default -> menu.optIvalid();
             }
         }
@@ -146,5 +147,12 @@ public class MenuControler {
         } catch (IOException e) {
             System.out.println("Erro ao comprimir o arquivo: " + e.getMessage());
         }
+    }
+
+    public void printTxt(String title) {
+        menu.cls();
+        menu.printTxt(title, storage.readTxt(title));
+        menu.pause();
+        menu.cls();
     }
 }

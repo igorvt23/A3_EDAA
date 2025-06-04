@@ -44,7 +44,7 @@ public class MenuView {
             while (line.length() > tamMax) {
                 int cutPoint = line.lastIndexOf(" ", tamMax);
                 if (cutPoint == -1) cutPoint = tamMax;
-                builder.append(content, 0, cutPoint).append("\n");
+                builder.append(line, 0, cutPoint).append("\n");
                 line = line.substring(cutPoint).trim();
             }
             builder.append(line).append("\n");
@@ -140,12 +140,19 @@ public class MenuView {
     }
 
     // data deveria ser string? int? float? bollean?  (ou é hoje pu não é hoje) // insira sua Figurinha pensativa aqui 
-    // public void imprimirTxt(String title, String content, ?String data?, ?long size?, ?long compresedSize?) {
-    public void imprimirTxt(String title, String content) {
+    // public void printTxt(String title, String content, ?String data?, ?long size?, ?long compresedSize?) {
+    public void printTxt(String title, String content) {
         printLine("=", false);
-        printRight(centralized(".txt: "+title, tamanhoMenu-4));
+        printRight(centralized("Titulo: "+title, tamanhoMenu-4));
         printLine("-", true);
-        
+        printRight("DADOS: ");
+        printRight("> Data de criacao: ");
+        printRight("> Tamanho: ");
+        printRight("> Tamanho Comprido: ");
+        printLine("-", true);
+        String formatedLine = ajsutContent(content);
+        String[] lines = formatedLine.split("\n");
+        for (String line : lines) printRight(line);
         printLine("=", false);
     }
 
