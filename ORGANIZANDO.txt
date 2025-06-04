@@ -1,0 +1,19 @@
+FALTA FAZER:
+- Opção 2 - Formatando Datas na parte de listagem de arquivos
+- Opção 2 - Comprimir arquivos (criar um novo arquivo na pasta ./dados/zip)
+- Opção 3 - Faltou linkar a função já criada no SalvarTXToriginal
+- Opção 3 - Mostrar 10 caracteres antes e depois da palavra chave
+- Opção 3 - Contar o número de ocorrências
+- Opção 4 - Fazer por completo (pegar o tamanho comprimido (do arquivo comprimido))
+- Opção 4 - Add ordenação dos arquivos
+- Opção 4 - Criando um gráfico simples de comparação
+- Opção 5 - Atualizar índice invertido
+- Opção 5 - Visualizar árvore AVL de palavras
+- Opção 5 - Ver B-Tree de metadados
+- Opção 5 - Forçar recompressão Huffman
+- Opção 5 - Árvore ou gráfico textual (para CLI)
+- Opção 5 - Logs de ações
+
+
+JÁ FEITO:
+✓ - Opção 1 -Cadastro dos arquivos .TXT e arquivos no Serializer
