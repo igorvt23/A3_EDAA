@@ -25,22 +25,29 @@ public class ListService {
         list.addNode(dado, data);
     }
 
-    public void showList() {
+    // Opção 2 do menu principal
+    public int showList() {
+        // Listando os arquivos
         list.showList();
+
+        //Contando os arquivos
         int totalArquivos = list.countList();
+
         if (totalArquivos > 0) {
+            // Segundo menu para remover, recomprimir ou visualizar o índice
+            // Retorna o nome do arquivo escolhido
             String arquivo = list.chooseFile(totalArquivos);
+
             if (arquivo != null) {
+                //Printa principais infos do arquivo
                 list.chosenFile(arquivo);
-                int acoes = list.actionsFile();
-                switch (acoes) {
-                    // case 1 -> list.removeNode();
-                    // case 2 -> list.recomprimir();
-                    // case 3 -> list.visualizarIndice();
-                    default -> System.out.println("Ação inválida!");
-                }
+
+                return totalArquivos;
+            } else {
+                return 0;
             }
-            
+        } else {
+            return 0;
         }
     }
 
@@ -56,5 +63,9 @@ public class ListService {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    public String getArquivo(int index){
+        return list.chooseFile(index);
     }
 }

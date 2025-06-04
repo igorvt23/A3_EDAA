@@ -29,9 +29,9 @@ public class List implements Serializable{
         
         while (temp != null) {
             if (temp.next == null) {
-                System.out.print(temp.data+" - " + temp.date + "\n");  
+                System.out.print(temp.data+" - " + temp.date + "\n");  // Falta formatar data
             } else {
-                System.out.print(temp.data+", - " + temp.date);
+                System.out.print(temp.data+", - " + temp.date);  // Falta formatar data
             }
             temp = temp.next;
         }
@@ -61,9 +61,9 @@ public class List implements Serializable{
         }
 
         Node temp = start;
-        int i = 0;
+        int i = 1;
         while (temp != null) {
-            System.out.printf("%d. %s - %s\n", i++, temp.data, temp.date);
+            System.out.printf("%d. %s - %s\n", i++, temp.data, temp.date); // FORMATAR DATA
             temp = temp.next;
         }
 
@@ -104,6 +104,7 @@ public class List implements Serializable{
             // Leitura do conteúdo do arquivo
             try (BufferedReader reader = new BufferedReader(new FileReader(file))) {
                 String linha;
+                // Imprime o conteúdo do arquivo
                 while ((linha = reader.readLine()) != null) {
                     System.out.println("\""+linha+"\"");
                 }
@@ -119,18 +120,6 @@ public class List implements Serializable{
         } else {
             System.out.println("Arquivo não encontrado!");
         }
-    }
-
-    public int actionsFile() {
-        
-        Scanner scanner = new Scanner(System.in);
-        int choice = Integer.parseInt(scanner.nextLine());
-        System.out.println("Você deseja abrir algum arquivo?");
-        System.out.println("1 - Excluir");
-        System.out.println("2 - Recomprimir");
-        System.out.println("3 - Visualizar ìndices");
-        System.out.println("0 - Voltar");
-        return choice;
     }
 
     public void removeNode(String dado) {
