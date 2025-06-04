@@ -1,5 +1,2 @@
 # Ignorar arquivos compilados
 *.class
-
-# Ignorar arquivos de backup temporários
-*.ser

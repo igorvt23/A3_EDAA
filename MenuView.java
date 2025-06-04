@@ -38,10 +38,17 @@ public class MenuView {
 
     public String ajsutContent(String content) {
         int tamMax = tamanhoMenu-4;
+        String[] lines = content.split("\n");
         StringBuilder builder = new StringBuilder();
-        
-
-        
+        for (String line : lines) {
+            while (line.length() > tamMax) {
+                int cutPoint = line.lastIndexOf(" ", tamMax);
+                if (cutPoint == -1) cutPoint = tamMax;
+                builder.append(content, 0, cutPoint).append("\n");
+                line = line.substring(cutPoint).trim();
+            }
+            builder.append(line).append("\n");
+        }
         return builder.toString();
     }
 
