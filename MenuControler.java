@@ -3,6 +3,8 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Scanner;
 import java.util.zip.GZIPOutputStream;
 
@@ -29,7 +31,7 @@ public class MenuControler {
             switch (opt) {
                 case 1 -> Cadastro();
                 case 2 -> showList();
-                case 3 -> saveList(); // Falta mostrar trecho e número de ocorrências; DEVE SER descutido a logica de quando o progama deve salvar em memoria alterações na lista
+                // case 3 -> saveList(); // Falta mostrar trecho e número de ocorrências; DEVE SER descutido a logica de quando o progama deve salvar em memoria alterações na lista
                 // case 4 -> estatisticasEOrdenacao();
                 // case 4 -> removeNode();
                 //case 5 ->
@@ -39,12 +41,12 @@ public class MenuControler {
                 // case 6 -> showList();
                 // case 7 -> saveList();
                 // case 8 -> removeNode();
-                case 10 ->  menu.teste(); //casee usado para testes de impressão deve ser apagado ppsteriormente
+                // case 10 ->  menu.teste(); //casee usado para testes de impressão deve ser apagado ppsteriormente
                 case 0 -> {
                     menu.end();
                     return;
                 }
-                case 11 -> printTxt("teste_01");
+                case 11 -> printTxt("Piratas do Carribe");
                 default -> menu.optIvalid();
             }
         }
@@ -64,7 +66,9 @@ public class MenuControler {
         }
         String description = menu.cadastro2();
         storage.saveTxt(title, description);
-        list.addNode(title, java.time.LocalDateTime.now().toString()); // Pegando a data atual
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+        String dataFormatada = LocalDateTime.now().format(formatter);
+        list.addNode(title, dataFormatada);
         menu.cadastro3();
         menu.pause();
         menu.cls();
@@ -74,20 +78,21 @@ public class MenuControler {
     // Ideia atual ele passa atraves de um for os elementos da lista na ordem para serem montados em tela
     public void showList() {
         menu.cls();
-        int qtdArquivos = list.showList();
+        String nomeArquivo = list.showList();
 
-        if(qtdArquivos > 0){
+        if(nomeArquivo != null){
             // Retorna a ação escolhida pelo usuário
             int acao = actionsFile();
             switch (acao) {
                 case 1 -> removeNode(); // Removendo o arquivo / No
-                case 2 -> compressTxt(qtdArquivos); // Comprimindo o arquivo (não testado)
-                // case 3 -> visualizarIndice(); // Visualizando o índice do arquivo
+                case 2 -> compressTxt(nomeArquivo); // Comprimindo o arquivo (não testado)
+                case 3 -> System.out.println(nomeArquivo); // Visualizando o índice do arquivo
                 default -> System.out.println("Ação inválida!");
             }
         }
         menu.geString();
         menu.cls();
+        saveList(); // Salva a lista após as alterações
     }
 
     // Provavelmente deveria estar no final de todas as alterações feitas nas estruturas de dados
@@ -120,17 +125,21 @@ public class MenuControler {
         return choice;
     }
 
-    public void compressTxt(int indiceArquivo) {
-        String nomeArquivo = list.getArquivo(indiceArquivo);
+    public void compressTxt(String nomeArquivo) {
+        nomeArquivo = nomeArquivo.trim();
 
         String inputFile = "dados/txt/" + nomeArquivo + ".txt";
         String outputFile = "dados/zip/" + nomeArquivo + ".gz";
 
+        File input = new File(inputFile);
+        if (!input.exists()) {
+            System.out.println("Arquivo NÃO encontrado: " + input.getAbsolutePath());
+            return;
+        }
+
         try {
             File zipDir = new File("dados/zip/");
-            if (!zipDir.exists()) {
-                zipDir.mkdirs();
-            }
+            if (!zipDir.exists()) zipDir.mkdirs();
 
             try (
                 FileInputStream fis = new FileInputStream(inputFile);
@@ -142,10 +151,11 @@ public class MenuControler {
                 while ((len = fis.read(buffer)) != -1) {
                     gzipOS.write(buffer, 0, len);
                 }
-                System.out.println("Arquivo comprimido: " + outputFile);
+                System.out.println("Arquivo comprimido com sucesso: " + outputFile);
             }
+
         } catch (IOException e) {
-            System.out.println("Erro ao comprimir o arquivo: " + e.getMessage());
+            System.out.println("Erro ao comprimir: " + e.getMessage());
         }
     }
 

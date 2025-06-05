@@ -1,5 +1,4 @@
 FALTA FAZER:
-- Opção 2 - Formatando Datas na parte de listagem de arquivos
 - Opção 2 - Comprimir arquivos (criar um novo arquivo na pasta ./dados/zip)
 - Opção 3 - Faltou linkar a função já criada no SalvarTXToriginal
 - Opção 3 - Mostrar 10 caracteres antes e depois da palavra chave
@@ -16,4 +15,63 @@ FALTA FAZER:
 
 
 JÁ FEITO:
-✓ - Opção 1 -Cadastro dos arquivos .TXT e arquivos no Serializer
+✓ - Menus
+✓ - Opção 1 - Cadastro dos arquivos .TXT e arquivos no Serializer
+✓ - Opção 2 - Formatando Datas na parte de listagem de arquivos
+✓ - Opção 2 - Inicio compressão arquivos
+
+
+Add no nodo - lista encadeado:
+    Nome txt
+    Data de criação
+    Tamanho comprimido
+    Tamanho original
+
+
+Guilherme:
+    * Organizar os dados para retornar ao menu e ser printado
+    5.1. Criar interface em linha de comando (CLI) para as funcionalidades (2 pts)
+    3.1. Armazenar palavras ordenadas em AVL para buscas rápidas (4 pts)
+
+    
+
+Igor - 06/06:
+    * Terminar a opção 2
+    * Add as infos no nodo
+        Nome txt
+        Data de criação
+        Tamanho comprimido
+        Tamanho original
+    * 1.3. Compressão com Huffman para salvar os textos no disco (3 pts)
+    5.2. Criar testes com JUnit para pelo menos 5 componentes chave (3 pts)
+
+
+Rafael:
+    * 2. Busca por Palavras-Chave com Índice de Relevância (10 pts)
+    * 1.2. Persistência em arquivos com estrutura de índice BTree+ (pode ser simulada) (3pts)
+        * Em teoria isso seria a busca de Palavras... 
+
+André - Kath:
+    4. Algoritmos de Ordenação (8 pts)
+    4.1. Implementar ordenações: Selection, Merge, Quick e Heap (4 pts)
+    4.2. Comparar a performance dos algoritmos com análise de tempo real (2 pts)
+    4.3. Escolher o melhor algoritmo para cada cenário de ordenação (por tamanho, por data etc.) (2 pts)
+
+Kath:
+    6. Complexidade e Desempenho (5 pts)
+    6.1. Documentar complexidade assintótica das principais operações (3 pts)
+    6.2. Medir tempo médio de execução e uso de memória (2 pts)
+
+Baixa prioridade:
+    * Retornar respostas das funções ao menuView
+    2.2. Usar Suffix Array + LCP para encontrar trechos com prefixo comum (5 pts) - Guilherme
+    2.3. Classificar os resultados por frequência com Heap Sort (2 pts) - Em aguardo dos 2.2 e 2.1 e 2.0
+
+Sobrando:
+    2.2. Usar Suffix Array + LCP para encontrar trechos com prefixo comum (5 pts)
+    2.3. Classificar os resultados por frequência com Heap Sort (2 pts)
+
+Itens Avaliativos e Pontuação (Total: 40 pontos)
+✓ - 2.1. Implementar índice invertido usando HashMap com listas (3 pts) - 
+
+- 3.2. Usar Rubro-Negra para gerenciar usuários por nome (4 pts) -  (parada, pouco intuitivo)

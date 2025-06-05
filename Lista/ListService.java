@@ -26,7 +26,7 @@ public class ListService {
     }
 
     // Opção 2 do menu principal
-    public int showList() {
+    public String showList() {
         // Listando os arquivos
         list.showList();
 
@@ -42,12 +42,12 @@ public class ListService {
                 //Printa principais infos do arquivo
                 list.chosenFile(arquivo);
 
-                return totalArquivos;
+                return arquivo;
             } else {
-                return 0;
+                return null;
             }
         } else {
-            return 0;
+            return null;
         }
     }
 

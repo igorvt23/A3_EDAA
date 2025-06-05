@@ -8,7 +8,7 @@ public class TextStorage {
     
     public void saveTxt(String title, String content) {
         try {
-            FileWriter writer = new FileWriter("dados/txt/"+title);
+            FileWriter writer = new FileWriter("dados/txt/"+title+".txt");
             writer.write(content);
             writer.close();
             System.out.println("Documento criado com sucesso!");
@@ -19,7 +19,7 @@ public class TextStorage {
     }
 
     public void deleteTxt(String text) {
-        File file = new File("dados/txt/"+text);
+        File file = new File("dados/txt/"+text+".txt");
 
         if (file.exists()) {
             if (file.delete()) {
@@ -36,7 +36,7 @@ public class TextStorage {
     public String readTxt(String title) {
         StringBuilder content = new StringBuilder();
 
-        try (BufferedReader leitor = new BufferedReader(new FileReader("dados/txt/"+title))) {
+        try (BufferedReader leitor = new BufferedReader(new FileReader("dados/txt/"+title+".txt"))) {
             String linha;
             while ((linha = leitor.readLine()) != null) {
                 content.append(linha).append("\n");
