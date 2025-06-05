@@ -53,9 +53,9 @@ public class List implements Serializable{
         
         while (temp != null) {
             if (temp.next == null) {
-                System.out.print(temp.data+" - " + temp.date + "\n");  // Falta formatar data
+                System.out.print(temp.data+" - " + temp.date + "\n");
             } else {
-                System.out.print(temp.data+", - " + temp.date);  // Falta formatar data
+                System.out.print(temp.data+", - " + temp.date);
             }
             temp = temp.next;
         }
@@ -87,7 +87,7 @@ public class List implements Serializable{
         Node temp = start;
         int i = 1;
         while (temp != null) {
-            System.out.printf("%d. %s - %s\n", i++, temp.data, temp.date); // FORMATAR DATA
+            System.out.printf("%d. %s - %s\n", i++, temp.data, temp.date);
             temp = temp.next;
         }
 
@@ -105,14 +105,14 @@ public class List implements Serializable{
             return null;
         }
 
-        if (choice < 0 || choice >= count) {
+        if (choice < 0 || choice > count) {
             System.out.println("Escolha inválida, operação cancelada.");
             return null;
         }
 
         // Buscar o Node correspondente ao índice escolhido
         temp = start;
-        for (i = 0; i < choice; i++) {
+        for (i = 1; i < choice; i++) {
             temp = temp.next;
         }
 
@@ -120,9 +120,9 @@ public class List implements Serializable{
     }
 
     public void chosenFile(String title) {
-        File file = new File("dados/txt/"+title);
+        File file = new File("dados/txt/"+title+".txt");
         if (file.exists()) {
-            File fileComprimido = new File("dados/zip/"+title);
+            File fileComprimido = new File("dados/zip/"+title+".gz");
             System.out.println(file.getName() + " - " + file.length() + " bytes");
             
             // Leitura do conteúdo do arquivo

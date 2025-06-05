@@ -53,7 +53,6 @@ public class MenuView {
     }
 
     // funções que captura entradas do usuario 
-    
     public int getInt() {
         while (true) {
             try {
@@ -76,7 +75,6 @@ public class MenuView {
     }
     
     // funções que imprimem menus e mensagens na tela q os formam
-
     public void cancel() {
         printLine("=", false);
         printRight(centralized("C A N C E L A N D O", tamanhoMenu-4));
@@ -146,9 +144,9 @@ public class MenuView {
         printRight(centralized("Titulo: "+title, tamanhoMenu-4));
         printLine("-", true);
         printRight("DADOS: ");
-        printRight("> Data de criacao: ");
-        printRight("> Tamanho: ");
-        printRight("> Tamanho Comprido: ");
+        printRight(centralized("> Data de criacao: ", tamanhoMenu-4));
+        printRight(centralized("> Tamanho: ", tamanhoMenu-4));
+        printRight(centralized("> Tamanho Comprido: ", tamanhoMenu-4));
         printLine("-", true);
         String formatedLine = ajsutContent(content);
         String[] lines = formatedLine.split("\n");
@@ -157,7 +155,6 @@ public class MenuView {
     }
 
     // IMPRESSÕES EXPERIMENTAIS (testes das outras funções de maneira geral)
-
     public void  teste() {
         printLine("=", false);
         printRight(centralized("COLUNA A", (tamanhoMenu-6)/2)+"| "+centralized("COLUNA B", (tamanhoMenu-6)/2));
