@@ -5,6 +5,7 @@
   <a href="#-objetivos">Objetivos</a>&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;
   <a href="#-implementacoes">Implementações</a>&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;
   <a href="#-tecnologias">Tecnologias</a>&nbsp;&nbsp;&nbsp;
+  <a href="#-testes">Rodando Testes</a>&nbsp;&nbsp;&nbsp;
 </p>
 <br>
 

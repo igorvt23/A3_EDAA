@@ -36,9 +36,9 @@ Guilherme:
     
 
 Igor - 06/06:
-    * Terminar a opção 2
-        * 1.3. Compressão com Huffman para salvar os textos no disco (3 pts)
-    5.2. Criar testes com JUnit para pelo menos 5 componentes chave (3 pts)
+    ✓ * Terminar a opção 2
+        ✓ * 1.3. Compressão com Huffman para salvar os textos no disco (3 pts)
+    ✓ 5.2. Criar testes com JUnit para pelo menos 5 componentes chave (3 pts)
 
 
 Rafael:
