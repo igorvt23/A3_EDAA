@@ -4,8 +4,10 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 
+// LIDA DIRETAMENTE COM OS ARQUIVOS TXT
 public class TextStorage {
     
+    // salva txt
     public void saveTxt(String title, String content) {
         try {
             FileWriter writer = new FileWriter("dados/txt/"+title+".txt");
@@ -24,6 +26,20 @@ public class TextStorage {
         if (file.exists()) {
             if (file.delete()) {
                 System.out.println("Txt deletado com sucesso!");
+            } else {
+                System.out.println("Falha ao deletar arquivo!");
+            }
+        } else {
+            System.out.println("Arquivo não encontrado!");
+        }
+    }
+
+    public void deleteGz(String text) {
+        File file = new File("dados/zip/"+text+".gz");
+
+        if (file.exists()) {
+            if (file.delete()) {
+                System.out.println("Gz deletado com sucesso!");
             } else {
                 System.out.println("Falha ao deletar arquivo!");
             }

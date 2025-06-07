@@ -5,6 +5,7 @@
   <a href="#-objetivos">Objetivos</a>&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;
   <a href="#-implementacoes">Implementações</a>&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;
   <a href="#-tecnologias">Tecnologias</a>&nbsp;&nbsp;&nbsp;
+  <a href="#-testes">Rodando Testes</a>&nbsp;&nbsp;&nbsp;
 </p>
 <br>
 
@@ -41,4 +42,19 @@ para compressão e ordenação.
 Esse projeto foi desenvolvido com as seguintes tecnologias:
 
 - Java
+- JUnit
+- Huffman
 
+## ▶ Rodando Testes:
+
+# ⚠ Compilando TextStorageTest.java na raíz do projeto
+javac -cp ".;lib\junit-platform-console-standalone-1.10.0.jar" TextStorage.java test\TextStorageTest.java
+
+# ⚠ Rodando testes TextStorageTest.java JUnit
+java -jar lib\junit-platform-console-standalone-1.10.0.jar -cp ".;test" --scan-classpath
+
+# ⚠ Compilando ListaServiceTest.java na raíz do projeto
+javac -d classes -cp "lib\junit-platform-console-standalone-1.10.0.jar" Lista\Node.java Lista\List.java Lista\ListService.java test\ListServiceTest.java
+
+# ⚠ Rodando testes ListaServiceTest.java JUnit
+java -jar lib\junit-platform-console-standalone-1.10.0.jar -cp "classes" --scan-classpath
