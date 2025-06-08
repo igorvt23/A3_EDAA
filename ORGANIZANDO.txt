@@ -46,13 +46,13 @@ Rafael:
     * 1.2. Persistência em arquivos com estrutura de índice BTree+ (pode ser simulada) (3pts)
         * Em teoria isso seria a busca de Palavras... 
 
-André - Kath:
-    4. Algoritmos de Ordenação (8 pts)
-    4.1. Implementar ordenações: Selection, Merge, Quick e Heap (4 pts)
-    4.2. Comparar a performance dos algoritmos com análise de tempo real (2 pts)
-    4.3. Escolher o melhor algoritmo para cada cenário de ordenação (por tamanho, por data etc.) (2 pts)
-
 Kath:
+    ✓ 4. Algoritmos de Ordenação (8 pts)
+    ✓ 4.1. Implementar ordenações: Selection, Merge, Quick e Heap (4 pts)
+    ✓ 4.2. Comparar a performance dos algoritmos com análise de tempo real (2 pts)
+    ✓ 4.3. Escolher o melhor algoritmo para cada cenário de ordenação (por tamanho, por data etc.) (2 pts)
+
+André / Kath:
     6. Complexidade e Desempenho (5 pts)
     6.1. Documentar complexidade assintótica das principais operações (3 pts)
     6.2. Medir tempo médio de execução e uso de memória (2 pts)
