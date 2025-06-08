@@ -4,8 +4,16 @@ import java.io.*;
 import java.text.SimpleDateFormat;
 
 public class SortTest {
+    private File diretorio;
 
-    public static void main(String[] args) throws IOException {
+    public SortTest() {
+        this.diretorio = new File("dados/txt"); // ajuste o caminho conforme sua estrutura
+        if (!diretorio.exists()) {
+            diretorio.mkdirs(); // cria o diretório se não existir
+        }
+    }
+
+    public void listarOrdenado(String tipoOrdenacao) {
         File pastaTXT = new File("dados/txt");
         File pastaZIP = new File("dados/zip");
 
@@ -30,15 +38,16 @@ public class SortTest {
             nodes[i] = new Node(nome, dataCriacao, tamanhoTXT, tamanhoZIP);
         }
 
-        // Executa comparações para os três critérios
-        compararAlgoritmos(nodes, "tamanho");
-        System.out.println("\n============================\n");
-        compararAlgoritmos(nodes, "data");
-        System.out.println("\n============================\n");
-        compararAlgoritmos(nodes, "nome");  // ordenação alfabética
+        if (tipoOrdenacao == "tamanho") {
+            compararAlgoritmos(nodes, "tamanho");
+        } else if (tipoOrdenacao == "data"){
+            compararAlgoritmos(nodes, "data");
+        } else if (tipoOrdenacao == "nome") {
+            compararAlgoritmos(nodes, "nome");
+        }
     }
 
-    public static void compararAlgoritmos(Node[] original, String criterio) {
+    public void compararAlgoritmos(Node[] original, String criterio) {
         System.out.println("Comparando algoritmos para o critério: " + criterio.toUpperCase() + "\n");
 
         String[] algoritmos = { "selection", "merge", "quick", "heap" };
@@ -71,22 +80,21 @@ public class SortTest {
             }
         }
 
-        System.out.printf("\nAlgoritmo mais rápido: %s (%.4f ms)%n\n",
-                algoritmos[melhorIdx], tempos[melhorIdx]);
+        System.out.printf("\nAlgoritmo mais rápido: %s (%.4f ms)%n\n", algoritmos[melhorIdx], tempos[melhorIdx]);
 
         // Imprime o resultado ordenado
         for (Node n : resultados[melhorIdx]) {
             String tamTXT = formatarTamanho(n.size);
             String tamGZ = (n.size_zip >= 0) ? formatarTamanho(n.size_zip) : "--";
-            System.out.printf("Nome: %-30s | Data: %s | TXT: %6s | GZ: %6s%n",
-                    n.data, n.date, tamTXT, tamGZ);
+            System.out.printf("Nome: %-30s | Data: %s | TXT: %6s | GZ: %6s%n", n.data, n.date, tamTXT, tamGZ);
         }
     }
 
-    public static String formatarTamanho(long bytes) {
+    public String formatarTamanho(long bytes) {
         if (bytes < 1024) return bytes + " B";
         int exp = (int) (Math.log(bytes) / Math.log(1024));
         char prefix = "KMGTPE".charAt(exp - 1);
         return String.format("%.1f %sB", bytes / Math.pow(1024, exp), prefix);
     }
+
 }
