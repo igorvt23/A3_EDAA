@@ -30,10 +30,12 @@ public class SortTest {
             nodes[i] = new Node(nome, dataCriacao, tamanhoTXT, tamanhoZIP);
         }
 
-        // Executa comparações para os dois critérios
+        // Executa comparações para os três critérios
         compararAlgoritmos(nodes, "tamanho");
         System.out.println("\n============================\n");
         compararAlgoritmos(nodes, "data");
+        System.out.println("\n============================\n");
+        compararAlgoritmos(nodes, "nome");  // ordenação alfabética
     }
 
     public static void compararAlgoritmos(Node[] original, String criterio) {
@@ -69,7 +71,7 @@ public class SortTest {
             }
         }
 
-        System.out.printf("\nO Algoritmo mais rápido foi o: %s (%.4f ms)%n\n",
+        System.out.printf("\nAlgoritmo mais rápido: %s (%.4f ms)%n\n",
                 algoritmos[melhorIdx], tempos[melhorIdx]);
 
         // Imprime o resultado ordenado
