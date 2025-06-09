@@ -1,4 +1,6 @@
 import Lista.ListService;
+import AVL.AVLService;
+
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -8,14 +10,18 @@ import java.time.format.DateTimeFormatter;
 import java.util.Scanner;
 import java.util.zip.GZIPOutputStream;
 
+
 public class MenuControler {
     MenuView menu;
     ListService list;
+    AVLService avl;
     TextStorage storage;
+
 
     MenuControler (MenuView painter) {
         this.menu = painter;
         this.list = new ListService();
+        this.avl = new AVLService();
         this.storage = new TextStorage();
     }
     
@@ -47,6 +53,7 @@ public class MenuControler {
                     return;
                 }
                 case 11 -> printTxt("Piratas do Carribe");
+                case 12 -> TestesComAvl();
                 default -> menu.optIvalid();
             }
         }
@@ -157,6 +164,30 @@ public class MenuControler {
         } catch (IOException e) {
             System.out.println("Erro ao comprimir: " + e.getMessage());
         }
+    }
+
+    public void TestesComAvl() {
+        menu.cls();
+        String[] lines = storage.readTxt("Piratas do Carribe").split("\n");
+        for (String line : lines) {
+            for (String word : line.split(" ")) {
+                avl.addNode(word.strip());
+            }
+        }
+        menu.cls();
+        String[][] tree = avl.printTree();
+        for (String[] line : tree) {
+            for (String cell : line) {
+                System.out.print(cell);
+            }
+            System.out.println();
+        }
+        System.out.println("Arvore impresa!!!");
+        System.out.println(avl.inOrder());
+        System.out.println();
+        System.out.println(avl.countNodes());
+        menu.pause();
+        menu.cls();
     }
 
     public void printTxt(String title) {

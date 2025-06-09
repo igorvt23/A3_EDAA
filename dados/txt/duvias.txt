@@ -1,0 +1,17 @@
+b tree deve ter ordem? provavelemnte sim
+
+Step 1: We know that hash functions (which is some mathematical formula) are used to calculate the hash value which acts as the index of the data structure where the value will be stored.
+Step 2: So, let's assign
+“a” = 1,
+“b”=2, .. etc, to all alphabetical characters.
+
+ “ab” = 1 + 2 = 3, 
+ “cd” = 3 + 4 = 7 , 
+ “efg” = 5 + 6 + 7 = 18 
+Step 4: Now, assume that we have a table of size 7 to store these strings. The hash function that is used here is the sum of the characters in key mod Table size . We can compute the location of the string in the array by taking the sum(string) mod 7 .
+Step 5: So we will then store
+“ab” in 3 mod 7 = 3,
+“cd” in 7 mod 7 = 0, and
+“efg” in 18 mod 7 = 4.
+
+

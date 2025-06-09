@@ -144,9 +144,9 @@ public class MenuView {
         printRight(centralized("Titulo: "+title, tamanhoMenu-4));
         printLine("-", true);
         printRight("DADOS: ");
-        printRight(centralized("> Data de criacao: ", tamanhoMenu-4));
-        printRight(centralized("> Tamanho: ", tamanhoMenu-4));
-        printRight(centralized("> Tamanho Comprido: ", tamanhoMenu-4));
+        printRight("> Data de criacao: ");
+        printRight("> Tamanho: ");
+        printRight("> Tamanho Comprido: ");
         printLine("-", true);
         String formatedLine = ajsutContent(content);
         String[] lines = formatedLine.split("\n");

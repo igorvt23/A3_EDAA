@@ -9,7 +9,7 @@ import java.io.ObjectOutputStream;
 public class ListService {
     List list;
 
-    public ListService () {
+    public ListService() {
         try (FileInputStream fileIn = new FileInputStream("dados/objs/lista.ser");
             ObjectInputStream in = new ObjectInputStream(fileIn)) {
             list = (List) in.readObject();  // Corrigido: não redeclarar

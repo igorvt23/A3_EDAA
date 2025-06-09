@@ -48,7 +48,6 @@ Igor - 06/06:
 
 Rafael:
     * 2. Busca por Palavras-Chave com Índice de Relevância (10 pts)
-    * 1.2. Persistência em arquivos com estrutura de índice BTree+ (pode ser simulada) (3pts)
         * Em teoria isso seria a busca de Palavras... 
 
 André - Kath:
