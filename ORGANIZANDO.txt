@@ -36,27 +36,22 @@ Guilherme:
     
 
 Igor - 06/06:
-    * Terminar a opção 2
-    * Add as infos no nodo
-        Nome txt
-        Data de criação
-        Tamanho comprimido
-        Tamanho original
-    * 1.3. Compressão com Huffman para salvar os textos no disco (3 pts)
-    5.2. Criar testes com JUnit para pelo menos 5 componentes chave (3 pts)
+    ✓ * Terminar a opção 2
+        ✓ * 1.3. Compressão com Huffman para salvar os textos no disco (3 pts)
+    ✓ 5.2. Criar testes com JUnit para pelo menos 5 componentes chave (3 pts)
 
 
 Rafael:
     * 2. Busca por Palavras-Chave com Índice de Relevância (10 pts)
         * Em teoria isso seria a busca de Palavras... 
 
-André - Kath:
-    4. Algoritmos de Ordenação (8 pts)
-    4.1. Implementar ordenações: Selection, Merge, Quick e Heap (4 pts)
-    4.2. Comparar a performance dos algoritmos com análise de tempo real (2 pts)
-    4.3. Escolher o melhor algoritmo para cada cenário de ordenação (por tamanho, por data etc.) (2 pts)
-
 Kath:
+    ✓ 4. Algoritmos de Ordenação (8 pts)
+    ✓ 4.1. Implementar ordenações: Selection, Merge, Quick e Heap (4 pts)
+    ✓ 4.2. Comparar a performance dos algoritmos com análise de tempo real (2 pts)
+    ✓ 4.3. Escolher o melhor algoritmo para cada cenário de ordenação (por tamanho, por data etc.) (2 pts)
+
+André / Kath:
     6. Complexidade e Desempenho (5 pts)
     6.1. Documentar complexidade assintótica das principais operações (3 pts)
     6.2. Medir tempo médio de execução e uso de memória (2 pts)

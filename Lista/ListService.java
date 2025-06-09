@@ -7,7 +7,7 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 
 public class ListService {
-    List list;
+    public List list;
 
     public ListService() {
         try (FileInputStream fileIn = new FileInputStream("dados/objs/lista.ser");
@@ -21,22 +21,22 @@ public class ListService {
         }
     }
 
-    public void addNode(String dado, String data) {
-        list.addNode(dado, data);
+    public void addNode(String dado, String data, long size) {
+        list.addNode(dado, data, size);
     }
 
     // Opção 2 do menu principal
     public String showList() {
-        // Listando os arquivos
-        list.showList();
+        
 
         //Contando os arquivos
         int totalArquivos = list.countList();
 
         if (totalArquivos > 0) {
+            // Listando os arquivos
             // Segundo menu para remover, recomprimir ou visualizar o índice
             // Retorna o nome do arquivo escolhido
-            String arquivo = list.chooseFile(totalArquivos);
+            String arquivo = list.showList(totalArquivos);
 
             if (arquivo != null) {
                 //Printa principais infos do arquivo
@@ -66,6 +66,11 @@ public class ListService {
     }
 
     public String getArquivo(int index){
-        return list.chooseFile(index);
+        return list.showList(index);
     }
+
+    public void addSizeFileCompressed(String nomeArquivo, long compressSize) {
+        list.addSizeFileCompressed(nomeArquivo, compressSize);
+    }
+
 }

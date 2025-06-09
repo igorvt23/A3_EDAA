@@ -1,13 +1,13 @@
 import Lista.ListService;
 import AVL.AVLService;
 
+import Lista.SortTest;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.Scanner;
 import java.util.zip.GZIPOutputStream;
 
 
@@ -16,6 +16,9 @@ public class MenuControler {
     ListService list;
     AVLService avl;
     TextStorage storage;
+    SortTest sortTest;
+
+
 
 
     MenuControler (MenuView painter) {
@@ -23,6 +26,8 @@ public class MenuControler {
         this.list = new ListService();
         this.avl = new AVLService();
         this.storage = new TextStorage();
+        this.sortTest = new SortTest();
+
     }
     
     public void start() {
@@ -38,7 +43,8 @@ public class MenuControler {
                 case 1 -> Cadastro();
                 case 2 -> showList();
                 // case 3 -> saveList(); // Falta mostrar trecho e número de ocorrências; DEVE SER descutido a logica de quando o progama deve salvar em memoria alterações na lista
-                // case 4 -> estatisticasEOrdenacao();
+                case 4 -> ordenarArquivos();  // Nova opção para ordenação
+
                 // case 4 -> removeNode();
                 //case 5 ->
                 //case 0 ->
@@ -73,9 +79,11 @@ public class MenuControler {
         }
         String description = menu.cadastro2();
         storage.saveTxt(title, description);
+        File file = new File("dados/txt/" + title + ".txt");
+
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
         String dataFormatada = LocalDateTime.now().format(formatter);
-        list.addNode(title, dataFormatada);
+        list.addNode(title, dataFormatada, file.length());
         menu.cadastro3();
         menu.pause();
         menu.cls();
@@ -91,9 +99,9 @@ public class MenuControler {
             // Retorna a ação escolhida pelo usuário
             int acao = actionsFile();
             switch (acao) {
-                case 1 -> removeNode(); // Removendo o arquivo / No
+                case 1 -> removeNode(nomeArquivo); // Removendo o arquivo / No
                 case 2 -> compressTxt(nomeArquivo); // Comprimindo o arquivo (não testado)
-                case 3 -> System.out.println(nomeArquivo); // Visualizando o índice do arquivo
+                case 3 -> showList(); // Visualizando o índice do arquivo
                 default -> System.out.println("Ação inválida!");
             }
         }
@@ -104,31 +112,30 @@ public class MenuControler {
 
     // Provavelmente deveria estar no final de todas as alterações feitas nas estruturas de dados
     public void saveList() {
-        menu.cls();
         list.saveList();
         menu.pause();
         menu.cls();
     }
 
     // Teoricamente se havera so um "add" tbm deve ter apenas um "remove" (discutir a logica disto)
-    public void removeNode(){
+    public void removeNode(String nomeArquivo) {
         menu.cls();
-        System.out.println("Digite o nome do arquivo a ser deletado");
-        String dado = menu.geString();
-        storage.deleteTxt(dado);
-        list.removeNode(dado);
+        storage.deleteTxt(nomeArquivo);
+        storage.deleteGz(nomeArquivo);
+        list.removeNode(nomeArquivo);
         menu.geString();
         menu.cls();
     }
 
     public int actionsFile() {
-        Scanner scanner = new Scanner(System.in);
+        menu.cls();
         System.out.println("Você deseja realizar alguma ação?");
         System.out.println("1 - Excluir");
         System.out.println("2 - Recomprimir");
         System.out.println("3 - Visualizar ìndices");
         System.out.println("0 - Voltar");
-        int choice = Integer.parseInt(scanner.nextLine());
+        int choice = menu.getInt();
+        
         return choice;
     }
 
@@ -158,6 +165,12 @@ public class MenuControler {
                 while ((len = fis.read(buffer)) != -1) {
                     gzipOS.write(buffer, 0, len);
                 }
+
+                File arquivoComprido = new File(outputFile);
+                long compressSize = arquivoComprido.length();
+
+                list.addSizeFileCompressed(nomeArquivo, compressSize);
+
                 System.out.println("Arquivo comprimido com sucesso: " + outputFile);
             }
 
@@ -196,4 +209,23 @@ public class MenuControler {
         menu.pause();
         menu.cls();
     }
+
+    public void ordenarArquivos() {
+        menu.cls();
+        System.out.println("Escolha o critério de ordenação:");
+        System.out.println("1 - Nome");
+        System.out.println("2 - Data");
+        System.out.println("3 - Tamanho");
+
+        int opt = menu.getInt();
+        switch (opt) {
+            case 1 -> sortTest.listarOrdenado("nome");
+            case 2 -> sortTest.listarOrdenado("data");
+            case 3 -> sortTest.listarOrdenado("tamanho");
+            default -> System.out.println("Opção inválida!");
+        }
+        menu.pause();
+        menu.cls();
+    }
+
 }
