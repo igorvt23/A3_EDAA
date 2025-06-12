@@ -31,7 +31,8 @@ Add no nodo - lista encadeado:
 Guilherme:
     * Organizar os dados para retornar ao menu e ser printado
     5.1. Criar interface em linha de comando (CLI) para as funcionalidades (2 pts)
-    3.1. Armazenar palavras ordenadas em AVL para buscas rápidas (4 pts)
+    ✓ 3.1. Armazenar palavras ordenadas em AVL para buscas rápidas (4 pts)
+    1.2 sei la é uma arvore q persiste os arquivos
 
     
 
@@ -68,4 +69,3 @@ Sobrando:
 Itens Avaliativos e Pontuação (Total: 40 pontos)
 ✓ - 2.1. Implementar índice invertido usando HashMap com listas (3 pts) - 
 
-- 3.2. Usar Rubro-Negra para gerenciar usuários por nome (4 pts) -  (parada, pouco intuitivo)
