@@ -180,7 +180,7 @@ public class MenuControler {
 
     public void TestesComAvl() {
         menu.cls();
-        String[] lines = storage.readTxt("Piratas do Carribe").split("\n");
+        String[] lines = storage.readTxt("Star Wars").split("\n");
         for (String line : lines) {
             for (String word : line.split(" ")) {
                 avl.addNode(word.strip());
@@ -194,6 +194,7 @@ public class MenuControler {
             }
             System.out.println();
         }
+        avl.saveVisualTree("Tree1");
         System.out.println("Arvore impresa!!!");
         System.out.println(avl.inOrder());
         System.out.println();

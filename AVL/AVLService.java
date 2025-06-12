@@ -7,6 +7,7 @@ public class AVLService {
 
     public AVLService() {
         avl = new AVL();
+
     }
 
     public String addNode(String word) {
@@ -33,4 +34,14 @@ public class AVLService {
     public String[][] printTree() {
         return avl.prinTree();
     }
+
+    public String convertDot() {
+        return avl.convertToDot();
+    }
+
+    public void saveVisualTree(String title) {
+        String StringTree = convertDot();
+        VisualTree tree = new VisualTree();
+        tree.saveVisualTree(title, StringTree);
+    } 
 }
