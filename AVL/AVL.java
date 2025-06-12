@@ -42,6 +42,9 @@ public class AVL {
         return tempRoot;
     }
 
+    //public removeNode() {
+    //
+    //}
     public int getHeight(Node tempNode) {
         return (tempNode == null) ? -1 : tempNode.height;
     }
@@ -141,5 +144,35 @@ public class AVL {
 
         place(node.left, row + 1, col - offset, height, matrix);
         place(node.right, row + 1, col + offset, height, matrix);
+    }
+
+    public String convertToDot() {
+        StringBuilder builder = new StringBuilder();
+        builder.append("digraph AVL {\n");
+        builder.append("  node [fontname=\"Arial\"];\n");
+
+        if (root == null) {
+            builder.append("\n");
+        } else {
+            builder.append(convertToDotRec(root));
+        }
+
+        builder.append("}\n");
+        return builder.toString();
+    } 
+
+    public String convertToDotRec(Node tempRoot) {
+        StringBuilder builder = new StringBuilder();
+        builder.append(String.format("  \"%s\";\n", tempRoot.word));
+        
+        if (tempRoot.left != null) {
+            builder.append(String.format("  \"%s\" -> \"%s\";\n", tempRoot.word, tempRoot.left.word));
+            builder.append(convertToDotRec(tempRoot.left));
+        }
+        if (tempRoot.right != null) {
+            builder.append(String.format("  \"%s\" -> \"%s\";\n", tempRoot.word, tempRoot.right.word));
+            builder.append(convertToDotRec(tempRoot.right));
+        }
+        return builder.toString();
     }
 }
