@@ -1,14 +1,17 @@
 import Lista.ListService;
 import AVL.AVLService;
-
 import Lista.SortTest;
+
+import java.util.Scanner;
+import java.util.zip.GZIPOutputStream;
+
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.zip.GZIPOutputStream;
+
 
 
 public class MenuControler {
@@ -44,11 +47,7 @@ public class MenuControler {
                 case 2 -> showList();
                 // case 3 -> saveList(); // Falta mostrar trecho e número de ocorrências; DEVE SER descutido a logica de quando o progama deve salvar em memoria alterações na lista
                 case 4 -> ordenarArquivos();  // Nova opção para ordenação
-
-                // case 4 -> removeNode();
-                //case 5 ->
-                //case 0 ->
-                // Compressão de huffman, ordenação, estatísticas e busca por palavra-chave
+                case 5 -> hashMap();
                 
                 // case 6 -> showList();
                 // case 7 -> saveList();
@@ -228,4 +227,28 @@ public class MenuControler {
         menu.cls();
     }
 
+    public void hashMap() {
+        String content = storage.readTxt("Piratas do Carribe");
+        storage.invertedIndex.indexDocument("Piratas do Carribe", content);
+
+        content =  storage.readTxt("carros");
+        storage.invertedIndex.indexDocument("carro", content);
+        
+        content =  storage.readTxt("O Lobo de Wall Street");
+        storage.invertedIndex.indexDocument("O Lobo de Wall Street", content);
+
+        while (true) {
+            System.out.println("Digite uma palavra a ser buscada: (PARA SAIR SIGITE -0)");
+            Scanner scan = new Scanner(System.in);
+            String word = scan.nextLine();
+            if (word.equals("-0")) {
+                scan.close(); 
+                break;
+            } 
+            storage.invertedIndex.search(word);
+        }
+
+
+        storage.getInvertedIndex().saveIndexToFile("dados/index.idx");
+    }
 }

@@ -64,6 +64,12 @@ public class TextStorage {
         return content.toString();
     }
 
+    public InvertedIndex invertedIndex = new InvertedIndex();
+
+    public InvertedIndex getInvertedIndex() {
+        return this.invertedIndex;
+    }
+
     // Ler o arquivo
     // Criar um obj e retornar com os atributos do txt para as outras classes trabalharem com ele
     // Criando um novo txt comprimido

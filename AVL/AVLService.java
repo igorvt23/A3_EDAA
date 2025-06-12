@@ -22,7 +22,7 @@ public class AVLService {
         return avl.printTreeReverse();
     }
 
-    public int countNodes() {
+    public int countNodes() { 
         return avl.countNodes();
     }
 
