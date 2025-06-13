@@ -23,7 +23,7 @@ e compressão de documentos, além de oferecer buscas eficientes por palavras-ch
 Os documentos devem ser armazenados de forma persistente em arquivos e indexados
 por múltiplas estruturas de dados, como árvores, tabelas hash e estruturas auxiliares
 para compressão e ordenação.
-<br>
+<br><br>
 
 
 ## ✔ Implementações:
@@ -44,17 +44,18 @@ Esse projeto foi desenvolvido com as seguintes tecnologias:
 - Java
 - JUnit
 - Huffman
+<br>
 
 ## ▶ Rodando Testes:
 
 ### ⚠ Compilando TextStorageTest.java na raíz do projeto
-javac -cp ".;lib\junit-platform-console-standalone-1.10.0.jar" TextStorage.java test\TextStorageTest.java
+- javac -cp ".;lib/junit-platform-console-standalone-1.10.0.jar" -d bin test/TextStorageTest.java
 
 ### ⚠ Rodando testes TextStorageTest.java JUnit
-java -jar lib\junit-platform-console-standalone-1.10.0.jar -cp ".;test" --scan-classpath
+- java -jar lib\junit-platform-console-standalone-1.10.0.jar -cp ".;test" --scan-classpath
 
 ### ⚠ Compilando ListaServiceTest.java na raíz do projeto
-javac -d classes -cp "lib\junit-platform-console-standalone-1.10.0.jar" Lista\Node.java Lista\List.java Lista\ListService.java test\ListServiceTest.java
+- javac -d classes -cp "lib\junit-platform-console-standalone-1.10.0.jar" Lista\Node.java Lista\List.java Lista\ListService.java test\ListServiceTest.java
 
 ### ⚠ Rodando testes ListaServiceTest.java JUnit
-java -jar lib\junit-platform-console-standalone-1.10.0.jar -cp "classes" --scan-classpath
+- java -jar lib\junit-platform-console-standalone-1.10.0.jar -cp "classes" --scan-classpath
