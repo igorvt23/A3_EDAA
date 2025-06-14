@@ -31,7 +31,7 @@ para compressão e ordenação.
   <li>Estruturas dinâmicas de dados para gerenciar os documentos e seus índices.</li>
   <li>Algoritmos de ordenação eficientes e análise de complexidade dos mesmos.</li>
   <li>Compressão de documentos usando codificação de Huffman.</li>
-  <li>Índice reverso persistente com B+Tree ou Hashing para busca por palavras.</li>
+  <li>Índice reverso persistente com BTree+ ou Hashing para busca por palavras.</li>
 </ul>
 <br>
 
