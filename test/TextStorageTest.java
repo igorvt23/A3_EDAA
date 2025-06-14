@@ -1,3 +1,4 @@
+
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*; // Importa todos os métodos estáticos de Assertions
 import org.junit.jupiter.api.BeforeEach; // Para configurar coisas antes de cada teste
@@ -50,12 +51,4 @@ public class TextStorageTest {
         assertTrue(outContent.toString().contains("Arquivo não encontrado!"), "Deveria imprimir 'Arquivo não encontrado!'");
         assertFalse(new File("dados/txt/non_existent_file.txt").exists(), "O arquivo inexistente não deveria existir.");
     }
-
-    // Você também pode adicionar um @AfterEach para limpar depois de cada teste,
-    // mas o @BeforeEach já cria um novo arquivo para cada teste.
-    // Se preferir uma limpeza explícita:
-    // @AfterEach
-    // void tearDown() {
-    //     new File(TEST_FILE_PATH).delete(); // Tenta deletar o arquivo de teste no final
-    // }
 }

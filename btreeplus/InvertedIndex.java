@@ -1,3 +1,4 @@
+package btreeplus;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.HashMap;
@@ -120,4 +121,3 @@ public class InvertedIndex {
         }
     }
 }
-

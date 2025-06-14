@@ -48,11 +48,10 @@ public class List implements Serializable{
         }
     }
 
-    public String showList(int count) {
+    public String showList(int count, Scanner scanner) {
         Node temp = start;
         
         if (temp != null) {
-            Scanner scanner = new Scanner(System.in);
             if (count == 0 || start == null) {
                 System.out.println("Lista vazia, não há arquivos escolhidos!");
                 return null;
@@ -60,7 +59,7 @@ public class List implements Serializable{
 
             int i = 1;
             while (temp != null) {
-                System.out.printf("%d. %s - %s\n", i++, temp.data, temp.date);
+                System.out.printf("%d. %s - %s - Tamanho: %d bytes - Comprimido: %d bytes\n", i++, temp.data, temp.date, temp.size, temp.size_zip);
                 temp = temp.next;
             }
 
@@ -167,4 +166,16 @@ public class List implements Serializable{
         }
         return null;
     }
+
+    public Node getNodeByIndex(int index) {
+        Node temp = start;
+        int i = 1;
+        while (temp != null) {
+            if (i == index) return temp;
+            temp = temp.next;
+            i++;
+        }
+        return null;
+    }
+
 }

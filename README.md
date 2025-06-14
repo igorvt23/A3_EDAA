@@ -32,7 +32,6 @@ para compressão e ordenação.
   <li>Algoritmos de ordenação eficientes e análise de complexidade dos mesmos.</li>
   <li>Compressão de documentos usando codificação de Huffman.</li>
   <li>Índice reverso persistente com B+Tree ou Hashing para busca por palavras.</li>
-  <li>Suffix Array e LCP Array para buscas por padrões de texto.</li>
 </ul>
 <br>
 
@@ -48,14 +47,12 @@ Esse projeto foi desenvolvido com as seguintes tecnologias:
 
 ## ▶ Rodando Testes:
 
-### ⚠ Compilando TextStorageTest.java na raíz do projeto
-- javac -cp ".;lib/junit-platform-console-standalone-1.10.0.jar" -d bin test/TextStorageTest.java
-
-### ⚠ Rodando testes TextStorageTest.java JUnit
-- java -jar lib\junit-platform-console-standalone-1.10.0.jar -cp ".;test" --scan-classpath
-
-### ⚠ Compilando ListaServiceTest.java na raíz do projeto
+### ⚠ Compilando os teste JUnit na raíz do projeto
 - javac -d classes -cp "lib\junit-platform-console-standalone-1.10.0.jar" Lista\Node.java Lista\List.java Lista\ListService.java test\ListServiceTest.java
 
-### ⚠ Rodando testes ListaServiceTest.java JUnit
+### ⚠ Rodando testes JUnit
 - java -jar lib\junit-platform-console-standalone-1.10.0.jar -cp "classes" --scan-classpath
+<br>
+<p align="center">
+  <img src="./img/testes_junit.png" alt="Foto do resumo dos teste JUnit" height="400">
+</p>

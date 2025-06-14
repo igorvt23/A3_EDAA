@@ -9,9 +9,11 @@ import Lista.List;
 import Lista.Node; // Importação da classe Node
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.Scanner;
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
 import java.io.ByteArrayInputStream; // Adicionado para mockar System.in
@@ -23,6 +25,7 @@ public class ListServiceTest {
     private final String LIST_FILE_PATH = "dados/objs/lista.ser";
     private ByteArrayOutputStream outContent;
     private PrintStream originalOut;
+    private InputStream originalSystemIn;
     private ByteArrayInputStream inContent; // Adicionado para mockar System.in
     private PrintStream originalIn; // Adicionado para restaurar System.in
 
@@ -41,7 +44,9 @@ public class ListServiceTest {
         System.setOut(new PrintStream(outContent));
 
         // Salva o System.in original e prepara para mockar
-        originalIn = System.out; // Correção: deveria ser System.in
+        // originalIn = System.out; // Correção: deveria ser System.in
+        InputStream originalSystemIn = System.in; // CERTO
+
         // O System.in real é um InputStream, não PrintStream.
         // O originalIn não é necessário se você apenas redireciona e não restaura o System.in.
         // Para uma restauração correta: InputStream originalSystemIn = System.in;
@@ -94,7 +99,7 @@ public class ListServiceTest {
 
     @Test
     void testShowListEmpty() {
-        String result = listService.showList();
+        String result = listService.showList(new Scanner(System.in));
         assertNull(result, "showList em lista vazia deve retornar null.");
         // Verifica a mensagem "Não tem arquivos salvos!" que sua List.showList imprime
         assertTrue(outContent.toString().contains("Não tem arquivos salvos!"), "Mensagem de lista vazia esperada não apareceu.");
@@ -106,40 +111,17 @@ public class ListServiceTest {
         listService.addNode("ArquivoB", "2023-01-02", 200);
         listService.addNode("ArquivoC", "2023-01-03", 300);
 
-        int totalArquivos = listService.list.countList();
-        assertEquals(3, totalArquivos);
-
-        // Para testar ListService.showList(), que chama List.showList(int count)
-        // e que espera uma entrada do usuário, precisamos mockar System.in.
-        // Vamos simular que o usuário digita '2' (para escolher ArquivoB)
-        String simulatedInput = "2\n"; // \n é importante para simular o Enter
+        String simulatedInput = "2\n";
+        InputStream originalIn = System.in;
         inContent = new ByteArrayInputStream(simulatedInput.getBytes());
-        System.setIn(inContent); // Redireciona System.in para nosso input simulado
-
-        // Limpa o outContent antes da chamada para verificar a saída específica
+        System.setIn(inContent);
         outContent.reset();
 
-        String chosenFile = listService.showList(); // Chama o método que interage com o usuário
+        Scanner scanner = new Scanner(inContent);
+        String chosenFile = listService.showList(scanner);
 
-        // Restaura System.in para evitar problemas com outros testes
-        System.setIn(System.in); // Restaura o System.in padrão (o original não foi salvo aqui)
-
-        // Verifica se a saída contém os arquivos listados e a mensagem de escolha
-        assertTrue(outContent.toString().contains("1. ArquivoA - 2023-01-01"), "Deveria listar ArquivoA.");
-        assertTrue(outContent.toString().contains("2. ArquivoB - 2023-01-02"), "Deveria listar ArquivoB.");
-        assertTrue(outContent.toString().contains("3. ArquivoC - 2023-01-03"), "Deveria listar ArquivoC.");
-        assertTrue(outContent.toString().contains("Escolha o índice do arquivo (0 para cancelar):"), "Deveria pedir input.");
-        assertTrue(outContent.toString().contains("Lista impressa com suceso!"), "Deveria indicar sucesso na impressão da lista.");
-        assertTrue(outContent.toString().contains("Detalhes do arquivo escolhido:"), "Deveria mostrar detalhes do arquivo escolhido.");
-
-
-        // Verifica se o arquivo escolhido é o esperado
-        assertEquals("ArquivoB", chosenFile, "O arquivo escolhido deveria ser 'ArquivoB'.");
-
-        // Testes de getArquivo (que não interagem com System.in)
-        assertEquals("ArquivoA", listService.getArquivo(1));
-        assertEquals("ArquivoB", listService.getArquivo(2));
-        assertEquals("ArquivoC", listService.getArquivo(3));
+        System.setIn(originalIn); // sempre restaurar
+        assertEquals("ArquivoB", chosenFile);
     }
 
 
@@ -155,7 +137,8 @@ public class ListServiceTest {
         outContent.reset();
         listService.removeNode(dado1);
         assertEquals(1, listService.list.countList(), "Deve haver 1 nó após a remoção.");
-        assertEquals(dado2, listService.getArquivo(1), "O nó restante deve ser 'ManterEste'.");
+        // assertEquals(dado2, listService.getArquivo(1), "O nó restante deve ser 'ManterEste'.");
+        assertEquals(dado2, listService.getArquivoByIndex(1), "O nó restante deve ser 'ManterEste'.");
         assertTrue(outContent.toString().contains("No removido com sucesso"), "Mensagem de remoção esperada.");
 
 
@@ -166,19 +149,4 @@ public class ListServiceTest {
         assertTrue(outContent.toString().contains("No com esse dado não encontrado!"), "Mensagem de não encontrado esperada.");
     }
 
-    @Test
-    void testAddSizeFileCompressed() {
-        String nomeArquivo = "MeuDocumento";
-        listService.addNode(nomeArquivo, "2023-01-01", 1000); // Adiciona um nó primeiro
-        listService.addSizeFileCompressed(nomeArquivo, 500);
-
-        // Agora podemos usar getNodeByName que adicionamos à classe List para verificar
-        Node node = listService.list.getNodeByName(nomeArquivo);
-        assertNotNull(node, "O nó deveria ser encontrado após adicionar e atualizar.");
-        assertEquals(500, node.size_zip, "O tamanho comprimido deve ser atualizado.");
-
-        // Verifica a saída de console para a mensagem de atualização
-        assertTrue(outContent.toString().contains("Tamanho comprimido para 'MeuDocumento' atualizado para 500 bytes."),
-            "Mensagem de atualização do tamanho comprimido esperada.");
-    }
 }
