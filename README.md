@@ -50,7 +50,7 @@ Esse projeto foi desenvolvido com as seguintes tecnologias:
 ### ⚠ Compilando os teste JUnit na raíz do projeto
 - javac -d classes -cp "lib\junit-platform-console-standalone-1.10.0.jar" Lista\Node.java Lista\List.java Lista\ListService.java test\ListServiceTest.java
 
-### ⚠ Rodando testes JUnit JUnit
+### ⚠ Rodando testes JUnit
 - java -jar lib\junit-platform-console-standalone-1.10.0.jar -cp "classes" --scan-classpath
 <br>
 <p align="center">
