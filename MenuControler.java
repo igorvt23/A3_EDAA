@@ -1,16 +1,14 @@
-import Lista.ListService;
 import AVL.AVLService;
+import Lista.ListService;
 import Lista.SortTest;
-
-import java.util.Scanner;
-import java.util.zip.GZIPOutputStream;
-
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.Scanner;
+import java.util.zip.GZIPOutputStream;
 
 
 
@@ -92,7 +90,7 @@ public class MenuControler {
     // Ideia atual ele passa atraves de um for os elementos da lista na ordem para serem montados em tela
     public void showList() {
         menu.cls();
-        String nomeArquivo = list.showList();
+        String nomeArquivo = list.showList(new Scanner(System.in));
 
         if(nomeArquivo != null){
             // Retorna a ação escolhida pelo usuário

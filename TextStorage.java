@@ -1,8 +1,11 @@
+import btreeplus.InvertedIndex;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+
+
 
 // LIDA DIRETAMENTE COM OS ARQUIVOS TXT
 public class TextStorage {
