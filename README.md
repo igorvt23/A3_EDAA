@@ -31,18 +31,23 @@ para compressão e ordenação.
   <li>Estruturas dinâmicas de dados para gerenciar os documentos e seus índices.</li>
   <li>Algoritmos de ordenação eficientes e análise de complexidade dos mesmos.</li>
   <li>Compressão de documentos usando codificação de Huffman.</li>
-  <li>Índice reverso persistente com BTree+ ou Hashing para busca por palavras.</li>
+  <li>Índice reverso persistente com B+Tree ou Hashing para busca por palavras.</li>
 </ul>
 <br>
 
 
-## 🚀 Tecnologias:
+## 🚀 Tecnologias
 
-Esse projeto foi desenvolvido com as seguintes tecnologias:
+Este projeto foi desenvolvido com as seguintes tecnologias e estruturas de dados:
 
-- Java
-- JUnit
-- Huffman
+- **Java** – linguagem principal do sistema.
+- **JUnit** – para testes unitários.
+- **Codificação de Huffman** – compressão de arquivos de texto.
+- **AVL Tree** – estrutura de árvore balanceada para organização eficiente.
+- **B+Tree** – utilizada para índices reversos e buscas otimizadas.
+- **Listas Encadeadas** – controle e manipulação da coleção de documentos.
+- **Java IO e Serialização** – para persistência de dados em disco.
+
 <br>
 
 ## ▶ Rodando Testes:
