@@ -23,7 +23,7 @@ e compressão de documentos, além de oferecer buscas eficientes por palavras-ch
 Os documentos devem ser armazenados de forma persistente em arquivos e indexados
 por múltiplas estruturas de dados, como árvores, tabelas hash e estruturas auxiliares
 para compressão e ordenação.
-<br>
+<br><br>
 
 
 ## ✔ Implementações:
