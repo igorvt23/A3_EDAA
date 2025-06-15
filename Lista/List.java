@@ -6,7 +6,7 @@ import java.io.IOException;
 import java.io.Serializable;
 import java.util.Scanner;
 
-public class List implements Serializable{
+public class List implements Serializable {
     Node start;
 
     public void addNode(String dado, String data, long size) {
@@ -177,5 +177,4 @@ public class List implements Serializable{
         }
         return null;
     }
-
 }

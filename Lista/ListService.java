@@ -46,13 +46,13 @@ public class ListService {
         list.removeNode(dado);
     }
 
-    public void saveList() {
+    public String saveList() {
         try (FileOutputStream fileOut = new FileOutputStream("dados/objs/lista.ser");
              ObjectOutputStream out = new ObjectOutputStream(fileOut)) {
             out.writeObject(list);
-            System.out.println("Lista salva com sucesso!");
+            return "Lista salva com sucesso!";
         } catch (IOException e) {
-            e.printStackTrace();
+            return "Problemas ao salvar a lista!";
         }
     }
 
