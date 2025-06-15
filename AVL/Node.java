@@ -2,9 +2,10 @@ package AVL;
 
 import java.io.Serializable;
 
-public class Node {
+public class Node implements Serializable {
     String word;
     Node left, right;
+    int frequency;
     int height;
 
     public Node (String word) {
@@ -12,5 +13,6 @@ public class Node {
         this.left = null;
         this.right = null;
         this.height = 0;
+        this.frequency = 1;
     }
 }

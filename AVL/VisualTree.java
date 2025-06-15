@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 
+// Cria um html para facilitar a visualição da arvore
 public class VisualTree {
     public void saveVisualTree(String title, String dot){
         String html = """

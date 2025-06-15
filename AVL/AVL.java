@@ -1,8 +1,7 @@
 package AVL;
-
 import java.io.Serializable;
 
-public class AVL {
+public class AVL implements Serializable {
     Node root;
 
     public void addNode(String word) { 
@@ -18,6 +17,7 @@ public class AVL {
         } else if (word.compareToIgnoreCase(tempRoot.word) > 0) { 
             tempRoot.right = addNodeRec(tempRoot.right, word);
         } else {
+            tempRoot.frequency++;
             return tempRoot;
         }
 
@@ -42,9 +42,83 @@ public class AVL {
         return tempRoot;
     }
 
-    //public removeNode() {
-    //
-    //}
+    public void removeNode(String word) {
+        root = removeNodeRec(root, word);
+    }
+
+    public Node removeNodeRec(Node tempRoot, String word) {
+        if (tempRoot == null) return tempRoot;
+
+        if (word.compareToIgnoreCase(tempRoot.word) < 0) {
+            tempRoot.left = removeNodeRec(tempRoot.left, word);
+        } else if (word.compareToIgnoreCase(tempRoot.word) > 0) { 
+            tempRoot.right = removeNodeRec(tempRoot.right, word);
+        } else {
+            tempRoot.frequency--;
+            if (tempRoot.frequency <= 0) {
+                // verifica a existencias de filhos
+                if (tempRoot.left == null) {
+                    Node aux = tempRoot.right;
+                    tempRoot = null;
+                    return aux; 
+                } else if (tempRoot.right == null) {
+                    Node aux = tempRoot.left;
+                    tempRoot = null;
+                    return aux; 
+                } else {
+                    // acha o in order sucessor
+                    Node aux = minNode(tempRoot.right);
+                    tempRoot.word = aux.word;
+                    tempRoot.frequency = aux.frequency;
+                    tempRoot.right = removeNodeRec(tempRoot.right, aux.word);
+                }
+                
+                // atualiza a altura
+                tempRoot.height = 1 + Math.max(getHeight(tempRoot.left), getHeight(tempRoot.right));
+
+                int balance = balance(tempRoot);
+
+                if (balance == -2 && word.compareToIgnoreCase(tempRoot.right.word) > 0) {
+                    return rotateLeft(tempRoot);
+
+                } else if (balance == -2 && word.compareToIgnoreCase(tempRoot.right.word) < 0) {
+                    tempRoot.right = rotateRight(tempRoot.right);
+                    return rotateLeft(tempRoot);
+
+                } else if (balance == +2 && word.compareToIgnoreCase(tempRoot.left.word) < 0) {
+                    return rotateRight(tempRoot);
+
+                } else if (balance == +2 && word.compareToIgnoreCase(tempRoot.left.word) > 0) {
+                    tempRoot.left = rotateLeft(tempRoot.left);
+                    return rotateRight(tempRoot);
+                }
+            }
+            return tempRoot;
+        }
+        return tempRoot;
+    }
+
+    public String hasWord(String word) {
+        return hasWordRec(root, word);
+    }
+
+    public String hasWordRec(Node tempRoot, String word) {
+        if (tempRoot == null)  return "Palavra não encontrada!";
+        if (tempRoot.word.equals(word)) return word +" | freqeuncia: "+ tempRoot.frequency;
+        else if (word.compareTo(tempRoot.word) < 0) {
+            return hasWordRec(tempRoot.left, word);
+        } else {
+            return hasWordRec(tempRoot.right, word);
+        }
+    }
+
+    public Node minNode(Node tempRoot) {
+        while (tempRoot.left != null) {
+            tempRoot = tempRoot.left;
+        }
+        return tempRoot;
+    }
+
     public int getHeight(Node tempNode) {
         return (tempNode == null) ? -1 : tempNode.height;
     }
@@ -83,11 +157,7 @@ public class AVL {
     public String printTreeInOrderRec(Node tempRoot) {
         StringBuilder actual = new StringBuilder();
         if(tempRoot.left != null) actual.append(printTreeInOrderRec(tempRoot.left));
-        actual.append("Root atual: " + tempRoot.word + 
-                      " | Ponteiro root atual: " + tempRoot + 
-                      " | left: " + tempRoot.left +
-                      " | right: " + tempRoot.right +
-                      " | heigtht: " + tempRoot.height+"\n");
+        actual.append(String.format("[Nos: %-20s | Frequencia: %03d | Altura: %02d]\n", tempRoot.word, tempRoot.frequency, tempRoot.height));
         if(tempRoot.right != null) actual.append(printTreeInOrderRec(tempRoot.right));
         return actual.toString();
     }
@@ -98,12 +168,7 @@ public class AVL {
 
     public String printTreeReverseRec(Node tempRoot) {
         StringBuilder actual = new StringBuilder();
-        if(tempRoot.right != null) actual.append(printTreeReverseRec(tempRoot.right));
-        actual.append("Root atual: " + tempRoot.word + 
-                      " | Ponteiro root atual: " + tempRoot + 
-                      " | left: " + tempRoot.left +
-                      " | right: " + tempRoot.right +
-                      " | heigtht: " + tempRoot.height+"\n");
+        actual.append(String.format("[No: %-20s | Frequencia: %-03d | Altura: %-02d]\n", tempRoot.word, tempRoot.frequency, tempRoot.height));
         if(tempRoot.left != null) actual.append(printTreeReverseRec(tempRoot.left));
         return actual.toString();
     }
@@ -120,6 +185,7 @@ public class AVL {
         return atual;
     }
 
+    // deve ser exvluido provavelmente
     public String[][] prinTree() {
         int altura =  root.height + 1;
         int largura = (int) Math.pow(2, altura) - 1;
@@ -146,6 +212,7 @@ public class AVL {
         place(node.right, row + 1, col + offset, height, matrix);
     }
 
+    // ´por conta do ,Dot a 2 ultimas funções saõ meio inuteois
     public String convertToDot() {
         StringBuilder builder = new StringBuilder();
         builder.append("digraph AVL {\n");
@@ -163,7 +230,7 @@ public class AVL {
 
     public String convertToDotRec(Node tempRoot) {
         StringBuilder builder = new StringBuilder();
-        builder.append(String.format("  \"%s\";\n", tempRoot.word));
+        builder.append(String.format("  \"%s\" [label=\"%s (%d)\"];\n", tempRoot.word, tempRoot.word, tempRoot.frequency));
         
         if (tempRoot.left != null) {
             builder.append(String.format("  \"%s\" -> \"%s\";\n", tempRoot.word, tempRoot.left.word));

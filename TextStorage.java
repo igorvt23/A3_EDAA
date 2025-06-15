@@ -1,4 +1,3 @@
-import btreeplus.InvertedIndex;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
@@ -6,20 +5,17 @@ import java.io.FileWriter;
 import java.io.IOException;
 
 
-
 // LIDA DIRETAMENTE COM OS ARQUIVOS TXT
 public class TextStorage {
-    
     // salva txt
-    public void saveTxt(String title, String content) {
+    public String saveTxt(String title, String content) {
         try {
             FileWriter writer = new FileWriter("dados/txt/"+title+".txt");
             writer.write(content);
             writer.close();
-            System.out.println("Documento criado com sucesso!");
+            return "Documento criado com sucesso!";
         } catch (IOException e) {
-            System.out.println("Falha ao criar txt!");
-            e.printStackTrace();
+            return "Falha ao criar txt!";
         }
     }
 
@@ -66,14 +62,4 @@ public class TextStorage {
         if (content.length() > 0) content.setLength(content.length() - 1); // Remove o último '\n'
         return content.toString();
     }
-
-    public InvertedIndex invertedIndex = new InvertedIndex();
-
-    public InvertedIndex getInvertedIndex() {
-        return this.invertedIndex;
-    }
-
-    // Ler o arquivo
-    // Criar um obj e retornar com os atributos do txt para as outras classes trabalharem com ele
-    // Criando um novo txt comprimido
 }

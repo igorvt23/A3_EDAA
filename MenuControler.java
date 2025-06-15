@@ -1,6 +1,8 @@
 import AVL.AVLService;
 import Lista.ListService;
 import Lista.SortTest;
+import HashMap.HashService;
+
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -9,6 +11,7 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Scanner;
 import java.util.zip.GZIPOutputStream;
+import java.util.regex.*;
 
 
 
@@ -16,19 +19,18 @@ public class MenuControler {
     MenuView menu;
     ListService list;
     AVLService avl;
+    HashService hash;
     TextStorage storage;
     SortTest sortTest;
-
-
 
 
     MenuControler (MenuView painter) {
         this.menu = painter;
         this.list = new ListService();
         this.avl = new AVLService();
+        this.hash = new HashService();
         this.storage = new TextStorage();
         this.sortTest = new SortTest();
-
     }
     
     public void start() {
@@ -38,15 +40,14 @@ public class MenuControler {
     }
 
     public void startMenu() {
-        while (true) {    
+        while (true) {
             int opt = menu.startMenu();
             switch (opt) {
                 case 1 -> Cadastro();
-                case 2 -> showList();
+                case 2 -> listDoc(); // literal n funciona
                 // case 3 -> saveList(); // Falta mostrar trecho e número de ocorrências; DEVE SER descutido a logica de quando o progama deve salvar em memoria alterações na lista
                 case 4 -> ordenarArquivos();  // Nova opção para ordenação
-                case 5 -> hashMap();
-                
+                case 5 -> hash();
                 // case 6 -> showList();
                 // case 7 -> saveList();
                 // case 8 -> removeNode();
@@ -57,30 +58,72 @@ public class MenuControler {
                 }
                 case 11 -> printTxt("Piratas do Carribe");
                 case 12 -> TestesComAvl();
-                default -> menu.optIvalid();
+                default -> {
+                    menu.optIvalid(); menu.cls();
+                }
             }
         }
     }
     
-    // Quando novas estruturasd de dados forem adicionadas cadastro deve ser atualizado para englobar elas,
-    // talvez seja util crirar uma função que gera estruturas com bse nos txt's da pasta dados/txt 
     public void Cadastro() {
         menu.cls();
         String title = menu.cadastro1();
-        // deve ser alterado para apos o menu de cadastro assim como está no salvar txt tnks @igorvt23
-        if (title.equals("-0")) {
+        String description = menu.cadastro2();
+
+        if (menu.confirmarion("Criar Novo .Txt").equals("-0")) {
             menu.cancel();
-            menu.geString();
             menu.cls();
             return;
         }
-        String description = menu.cadastro2();
-        storage.saveTxt(title, description);
-        File file = new File("dados/txt/" + title + ".txt");
+        
+        // Cria o txt com titulo e descrição
+        menu.printRight("");
+        menu.printRight("");
+        menu.printRight(storage.saveTxt(title, description));
 
+        //adiona o txt na lista encadeada
+        File file = new File("dados/txt/" + title + ".txt");
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
         String dataFormatada = LocalDateTime.now().format(formatter);
         list.addNode(title, dataFormatada, file.length());
+        menu.printRight(".txt Adicionado a lista encadeada!");
+        
+        String fullText = title + "\n" + description;
+
+        Pattern pattern = Pattern.compile("\\b\\p{L}+\\b", Pattern.UNICODE_CHARACTER_CLASS);
+        Matcher matcher = pattern.matcher(fullText);
+
+        while (matcher.find()) {
+            String word = matcher.group().toLowerCase();
+            int index = matcher.start();
+
+            // Adiciona na AVL
+            avl.addNode(word);
+            
+
+            int start = Math.max(0, index - 20);
+            int end = Math.min(fullText.length(), matcher.end() + 20);
+            String context = fullText.substring(start, end).strip();
+
+            // Adiciona no HashMap com título e contexto
+            hash.addword(word, title, context);
+        }
+
+        menu.printRight("Palavras adicionadas a AVL!");
+        menu.printRight("Palavras adicionadas ao HashMap!");
+        menu.printRight("");
+        menu.printRight("");
+        menu.printRight(hash.saveHash());
+        menu.printRight(avl.saveAVL());
+        menu.printRight(list.saveList());
+        
+        // BTREE+ tambem precisa ser adicionado e são 2 ainda CARALHO 9
+        // MALDITO SFIX LSDS vai tomar no cu  5
+        // heap sort do hash 2
+
+        // 21 pontos 29
+        // teorico 29 -21
+        // texto criado com sucesso
         menu.cadastro3();
         menu.pause();
         menu.cls();
@@ -88,6 +131,26 @@ public class MenuControler {
 
     // Teoricamente cada estutura tera um show diferente, é necessario  dar um jeito de fazer com q ele trabalhe com o view de menus ao receber confirmações da lista
     // Ideia atual ele passa atraves de um for os elementos da lista na ordem para serem montados em tela
+    
+    public void listDoc() {
+        while (true) {
+            menu.cls();
+            int opt = menu.listDocs();
+            switch (opt) {
+                case 1 -> showList();
+                case 2 -> showAvl();
+                case 3 -> showHash();
+                // case 4 -> showSufix();
+                // case 5 -> showBtreeDocs();
+                // case 6 -> showBtreeWords();
+                case 0 -> {
+                    return;
+                }
+                default -> menu.optIvalid();
+            }
+        }
+    }
+
     public void showList() {
         menu.cls();
         String nomeArquivo = list.showList(new Scanner(System.in));
@@ -107,6 +170,41 @@ public class MenuControler {
         saveList(); // Salva a lista após as alterações
     }
 
+    public void showAvl() {
+        menu.cls();
+        while (true) {
+            int opt = menu.showAvl1();
+            switch (opt) {
+                case 1 -> menu.showAvl2(avl.inOrder());
+                case 2 -> menu.showAvl2(avl.inReverse());
+                case 3 -> avlSpecial();
+                case 0 -> {
+                    return;
+                }
+                default -> menu.optIvalid();
+            }
+         }
+    }
+
+    public void avlSpecial() {
+        String name = menu.showAvlspecial();
+        avl.saveVisualTree(name);
+        String[][] tree = avl.printTree();
+        for (String[] line : tree) {
+            for (String cell : line) {
+                System.out.print(cell);
+            }
+            System.out.println();
+        }
+    }
+
+    public void showHash() {
+        menu.cls();
+        menu.showHash(hash.hashString());
+        menu.pause();
+    }
+
+    
     // Provavelmente deveria estar no final de todas as alterações feitas nas estruturas de dados
     public void saveList() {
         list.saveList();
@@ -178,21 +276,17 @@ public class MenuControler {
 
     public void TestesComAvl() {
         menu.cls();
-        String[] lines = storage.readTxt("Star Wars").split("\n");
-        for (String line : lines) {
-            for (String word : line.split(" ")) {
-                avl.addNode(word.strip());
-            }
-        }
-        menu.cls();
-        String[][] tree = avl.printTree();
-        for (String[] line : tree) {
-            for (String cell : line) {
-                System.out.print(cell);
-            }
-            System.out.println();
-        }
+       
         avl.saveVisualTree("Tree1");
+        avl.removeNode("corinthian");
+        avl.removeNode("Luke");
+        avl.saveVisualTree("Tree2");
+        avl.removeNode("Luke");
+
+        avl.saveVisualTree("Tree3");
+
+        avl.removeNode("Luke");
+
         System.out.println("Arvore impresa!!!");
         System.out.println(avl.inOrder());
         System.out.println();
@@ -204,6 +298,86 @@ public class MenuControler {
     public void printTxt(String title) {
         menu.cls();
         menu.printTxt(title, storage.readTxt(title));
+        menu.pause();
+        menu.cls();
+    }
+
+    // testes com o HashMap
+    public void hash() {
+        menu.cls();
+        String title = "Star Wars";
+        String[] lines = storage.readTxt(title).split("\n");
+
+        for (String line : lines) {
+            line = line.strip();
+            if (line.isBlank()) continue;
+
+            Pattern pattern = Pattern.compile("\\b\\p{L}+\\b", Pattern.UNICODE_CHARACTER_CLASS);
+            Matcher matcher = pattern.matcher(line);
+
+            while (matcher.find()) {
+                String word = matcher.group();
+                int index = matcher.start();
+
+                int start = Math.max(0, index - 15);
+                int end = Math.min(line.length(), matcher.end() + 15);
+
+                String context = line.substring(start, end).strip();
+                hash.addword(word, title, context);
+            }
+        }
+
+        title = "Piratas Do Carribe";
+        lines = storage.readTxt(title).split("\n");
+
+        for (String line : lines) {
+            line = line.strip();
+            if (line.isBlank()) continue;
+
+            Pattern pattern = Pattern.compile("\\b\\p{L}+\\b", Pattern.UNICODE_CHARACTER_CLASS);
+            Matcher matcher = pattern.matcher(line);
+
+            while (matcher.find()) {
+                String word = matcher.group().toLowerCase();
+                int index = matcher.start();
+
+                int start = Math.max(0, index - 25);
+                int end = Math.min(line.length(), matcher.end() + 25);
+
+                String context = line.substring(start, end).strip();
+                hash.addword(word, title, context);
+            }
+        }
+
+        menu.printLine("-", true);
+        lines = hash.haString().split("\n");
+        for (String line : lines) {
+            menu.printRight(line);
+        }
+        menu.printLine("-", true);
+
+        lines = hash.wordOcur("a").split("\n");
+        for (String line : lines) {
+            menu.printRight(line);
+        }
+
+
+        hash.removeWord("Luke", "Star Wars");
+
+        menu.printLine("-", true);
+        lines = hash.haString().split("\n");
+        for (String line : lines) {
+            menu.printRight(line);
+        }
+        menu.printLine("-", true);
+
+        lines = hash.wordOcur("Luke").split("\n");
+        for (String line : lines) {
+            menu.printRight(line);
+        }
+
+        menu.printTxt("Star Wars", storage.readTxt("Star Wars"));
+
         menu.pause();
         menu.cls();
     }
@@ -226,28 +400,28 @@ public class MenuControler {
         menu.cls();
     }
 
-    public void hashMap() {
-        String content = storage.readTxt("Piratas do Carribe");
-        storage.invertedIndex.indexDocument("Piratas do Carribe", content);
+//     public void hashMap() {
+//         String content = storage.readTxt("Piratas do Carribe");
+//         storage.invertedIndex.indexDocument("Piratas do Carribe", content);
 
-        content =  storage.readTxt("carros");
-        storage.invertedIndex.indexDocument("carro", content);
+//         content =  storage.readTxt("carros");
+//         storage.invertedIndex.indexDocument("carro", content);
         
-        content =  storage.readTxt("O Lobo de Wall Street");
-        storage.invertedIndex.indexDocument("O Lobo de Wall Street", content);
+//         content =  storage.readTxt("O Lobo de Wall Street");
+//         storage.invertedIndex.indexDocument("O Lobo de Wall Street", content);
 
-        while (true) {
-            System.out.println("Digite uma palavra a ser buscada: (PARA SAIR SIGITE -0)");
-            Scanner scan = new Scanner(System.in);
-            String word = scan.nextLine();
-            if (word.equals("-0")) {
-                scan.close(); 
-                break;
-            } 
-            storage.invertedIndex.search(word);
-        }
+//         while (true) {
+//             System.out.println("Digite uma palavra a ser buscada: (PARA SAIR SIGITE -0)");
+//             Scanner scan = new Scanner(System.in);
+//             String word = scan.nextLine();
+//             if (word.equals("-0")) {
+//                 scan.close(); 
+//                 break;
+//             } 
+//             storage.invertedIndex.search(word);
+//         }
 
 
-        storage.getInvertedIndex().saveIndexToFile("dados/index.idx");
-    }
+//         storage.getInvertedIndex().saveIndexToFile("dados/index.idx");
+//     }
 }
