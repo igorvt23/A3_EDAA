@@ -82,6 +82,12 @@ public class MenuView {
         printLine("=", false);
     }
 
+    public void close() {
+        printLine("=", false);
+        printRight(centralized("S A I N D O", tamanhoMenu-4));
+        printLine("=", false);
+    }
+
     public void end() {
         printLine("=", false);
         printRight(centralized("P R O G A M A  E N C E R R A D O", tamanhoMenu-4));
@@ -115,15 +121,11 @@ public class MenuView {
         printLine("-", true);
         printRight("1 - Cadastrar novo documento");
         printRight("2 - Listar documentos cadastrados");
-        printRight("3 - ?????");
+        printRight("3 - Busca Por Palavra chave");
         printRight("4 - Estatísticas e ordenação");
-        printRight("5 - Hash Map");
-        printRight("11 - Printar um .TXT ( sera incluido dentro de outra fução)");
-        printRight("12 - Testes com avl");
-        printRight("3 - ?????");
-        printRight("3 - ?????");
+        printRight("5 - Gerenciamento dos Txt");
         printRight("0 - Fechar o progama");
-        printLine("=", false);
+        printLine("-", true);
         System.out.print("=  > Digite a opcao desejada: ");
         return getInt();
     }
@@ -156,20 +158,19 @@ public class MenuView {
         printRight(centralized("L I S T A G E M  D E  D O C U M E N T O S", tamanhoMenu-4));
         printLine("-", true);
         printRight(" > Tipos de listagem disponiiveis:");
-        printRight("1 - Lista encadeda (nos e metadados)");
+        printRight("1 - Lista encadeda (Nos e metadados)");
         printRight("2 - AVL de Palvras (Nos em 'Ordem' Ou 'Orderm Reversa')");
         printRight("3 - Hash Map (Array do hash com numero de ocorrencias das Palavras)");
-        printRight("4 - Suffix Array (Nos em ordem) *n implementado");
-        printRight("5 - B+Tree de Documentos + metadados (Nos em ordem) *n implementado");
-        printRight("6 - B+Tree de Palavras (Nos em ordem) *n implementado");
         printRight("0 - Para voltar ao menu anterior");
+        printRight("");
+        printRight("");
         printRight("> Outras formas de visualizacao das arvores fora do progama");
         System.out.print("= > ");
         return getInt();
     }
 
     public int showAvl1() {
-        printLine("-", true);
+        printLine("=", false);
         printRight(centralized("A V L  I M P R E S A", tamanhoMenu-4));
         printLine("-", true);
         printRight("> 2 Formas de a mostra-la no terminal:");
@@ -208,71 +209,127 @@ public class MenuView {
         printLine("=", false);
     }
 
-    // data deveria ser string? int? float? bollean?  (ou é hoje pu não é hoje) // insira sua Figurinha pensativa aqui 
-    // public void printTxt(String title, String content, ?String data?, ?long size?, ?long compresedSize?) {
-    public void printTxt(String title, String content) {
+    public void showList(String list, boolean gerenciamento) {
+        if (gerenciamento) {
+            printLine("=", false);
+            printRight(centralized("L I S T A  D E  D O C S", tamanhoMenu-4));
+            printLine("-", true);
+        }
+        String[] nodes = list.split("\n");
+        for (int i = 0; i < nodes.length; i++) {
+            printDocInfo(nodes[i].split(","), i+1);
+        }
+        if (gerenciamento) {
+            printRight(centralized("L I S T A  I M P R E S A !", tamanhoMenu-4));
+            printLine("=", false);
+        } else {
+            printRight(centralized("L I S T A  I M P R E S A !", tamanhoMenu-4));
+            printLine("-", false);
+        }
+        
+    }
+
+    public void printDocInfo(String[] docInfo, int num) {
+        printLine("-", true);
+        String name = docInfo[0].toUpperCase();
+        String date = docInfo[1];
+        String size = docInfo[2];
+        String compresSize = docInfo[3];
+        printRight(String.format("Num: %d | Nome: %s", num, name));
+        printRight("    > Data de criacao: " + date);
+        printRight("    > Tamanho: " + size + "mb");
+        printRight("    > Tamanho Comprido: " + compresSize + "mb");
+        printRight("    ");
+        printLine("-", true);
+    }
+
+    public void printTxt(String title, String content, String data, long size, long compresedSize) {
         printLine("=", false);
-        printRight(centralized("Titulo: "+title, tamanhoMenu-4));
+        String newTitle = title.replaceAll(".", "$0 ").trim().replaceAll(" +", " ");
+        printRight(centralized("T I T U L O :  "+newTitle, tamanhoMenu-4));
         printLine("-", true);
-        printRight("DADOS: ");
-        printRight("> Data de criacao: ");
-        printRight("> Tamanho: ");
-        printRight("> Tamanho Comprido: ");
+        printRight("DADOS:");
+        printRight("> Data de criacao: " + data);
+        printRight("> Tamanho: " + size);
+        printRight("> Tamanho Comprido: " + compresedSize);
         printLine("-", true);
+        printRight("CONTEUDO:");
         String formatedLine = ajsutContent(content);
         String[] lines = formatedLine.split("\n");
         for (String line : lines) printRight(line);
         printLine("=", false);
     }
 
-    // IMPRESSÕES EXPERIMENTAIS (testes das outras funções de maneira geral)
-    public void  teste() {
+    public String searchWord1() {
         printLine("=", false);
-        printRight(centralized("COLUNA A", (tamanhoMenu-6)/2)+"| "+centralized("COLUNA B", (tamanhoMenu-6)/2));
+        printRight(centralized("B U S C A R  P A L A V R A -  C H A V E", tamanhoMenu-4));
         printLine("-", true);
-        for(int a = 0; a < 10; a++) {
-            printRight(righAling("teste de a"+a, (tamanhoMenu-8)/2)+"| "+righAling("teste de b"+a, (tamanhoMenu-6)/2));
+        printRight("Digite a palavra a ser buscada: ");
+        System.out.println("= > ");
+        return geString();
+    }
+
+    public void searchWord2(String word) {
+        printLine("-", true);
+        printRight(centralized("R E S U L T A D O  D A  A V L", tamanhoMenu-4));;
+        printRight("    > " + word);
+    }
+
+    public void searchWord3(String hash) {
+        printLine("-", true);
+        printRight(centralized("R E S U L T A D A  H A S H", tamanhoMenu-4));
+        printLine("-", true);
+        String[] lines = hash.split("\n");
+        for (String line : lines) {
+            printRight(line);
         }
+
+        printLine("-", true);
+        printRight(centralized("B U S C A  C O N C L U I D A", tamanhoMenu-4));
+        printLine("=", false);
+    }
+
+    public void Gerenciamento1(String list) {
+        printLine("=", true);
+        printRight(centralized("M E N U  D E  G E R E N C I A M E N T O", tamanhoMenu-4));
+        printLine("-", false);
+        showList(list, false);
+    }
+
+    public int Gerenciamento2() {
+        printRight("Selecione um .Txt por index par gerenciar ou 0 para sair");
+        System.out.println("= > ");
+        return getInt();
+    }
+
+    public int Gerenciamento3() {
+        printRight("Você deseja realizar alguma ação?");
+        printRight("1 - Excluir");
+        printRight("2 - Recomprimir");
+        printRight("3 - Visualizar ìndices");
+        printRight("0 - Voltar");
+        printRight("");
+        System.out.println("= > ");
+        return getInt();
+    }
+
+    public int orderOpt() {
+        cls();
+        printLine("=", true);
+        printRight(centralized("M E N U  D E  G E R E N C I A M E N T O", tamanhoMenu-4));
+        printLine("-", false);
+        printRight("Escolha o critério de ordenação:");
+        printRight("1 - Nome");
+        printRight("2 - Data");
+        printRight("3 - Tamanho");
+        printRight("0 - Sair");
+        System.out.println("= > ");
+        return getInt();
+    }
+
+    public void orderPrint(String ordenado) {
+        String[] lines = ordenado.split("%n");
+        for (String line : lines) printRight(line);
         printLine("=", false);
     }
 }
-
-// tecnicas de menu q talvez sejam uteis
-// > Criar linhas com padrores ´padro fica entre os + e é divido do tamanho pelo numero de letras
-// System.out.println("= "+"=x=".repeat((tamanhoMenu-4)/3)+" ="); 
-
-// ============== estruturas basica de menu ==============
-// System.out.println("=".repeat(tamanhoMenu));
-// System.out.printf("= %72s =\n", centralized("", tamanhoMenu-4));
-// System.out.println("= "+"=-".repeat((tamanhoMenu-4)/2)+" =");
-// System.out.printf("= %-"+(tamanhoMenu-4)+"s =\n", "");
-// System.out.println("=".repeat(tamanhoMenu));
-
-// talves criar uma função que recebe o titulo e as opçoes de um menu
-
-// MENU Q TROCA DE OPÇÂO AO USAR W para cima E S para baixo, mas precisa ainda de enter ent talvez n valha a a pena!
-// public void testeMenu1() {
-//     int opt = 1;
-//     String input; 
-
-//     do {
-//         cls();
-//         testeMultoptions(opt);
-//         System.out.println("w sobe, s dece, q sai!");
-//         input = scan.nextLine();
-
-//         if (input.equalsIgnoreCase("W") && opt > 1) opt--;
-//         if (input.equalsIgnoreCase("s") && opt < 3) opt++;
-
-
-//     } while(!input.equalsIgnoreCase("q"));
-// }
-
-
-// public void testeMultoptions(int opt) {
-//     printLine("=", false);
-//     printRight(opt == 1 ? "> 1 - opt 1" : "1 - opt 1");
-//     printRight(opt == 2 ? "> 2 - opt 2" : "2 - opt 2");
-//     printRight(opt == 3 ? "> 3 - opt 3" : "3 - opt 3");
-//     printLine("=", false);
-// }

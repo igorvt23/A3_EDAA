@@ -13,14 +13,14 @@ public class SortTest {
         }
     }
 
-    public void listarOrdenado(String tipoOrdenacao) {
+    public String listarOrdenado(String tipoOrdenacao) {
         File pastaTXT = new File("dados/txt");
         File pastaZIP = new File("dados/zip");
 
         File[] arquivos = pastaTXT.listFiles((dir, name) -> name.endsWith(".txt"));
         if (arquivos == null || arquivos.length == 0) {
-            System.out.println("Nenhum arquivo .txt encontrado.");
-            return;
+            return ("Nenhum arquivo .txt encontrado.");
+            
         }
 
         Node[] nodes = new Node[arquivos.length];
@@ -39,16 +39,18 @@ public class SortTest {
         }
 
         if (tipoOrdenacao == "tamanho") {
-            compararAlgoritmos(nodes, "tamanho");
+            return compararAlgoritmos(nodes, "tamanho");
         } else if (tipoOrdenacao == "data"){
-            compararAlgoritmos(nodes, "data");
+            return compararAlgoritmos(nodes, "data");
         } else if (tipoOrdenacao == "nome") {
-            compararAlgoritmos(nodes, "nome");
+            return compararAlgoritmos(nodes, "nome");
         }
+        return "invalido";
     }
 
-    public void compararAlgoritmos(Node[] original, String criterio) {
-        System.out.println("Comparando algoritmos para o critério: " + criterio.toUpperCase() + "\n");
+    public String compararAlgoritmos(Node[] original, String criterio) {
+        StringBuilder builder = new StringBuilder();
+        builder.append("Comparando algoritmos para o critério: " + criterio.toUpperCase() + "\n");
 
         String[] algoritmos = { "selection", "merge", "quick", "heap" };
         double[] tempos = new double[algoritmos.length];
@@ -69,7 +71,7 @@ public class SortTest {
             tempos[i] = (fim - inicio) / 1e6;
             resultados[i] = copia;
 
-            System.out.printf("Tempo (%s): %.4f ms%n", algoritmos[i], tempos[i]);
+            builder.append(String.format("Tempo (%s): %.4f ms\n", algoritmos[i], tempos[i]));
         }
 
         // Encontra o mais rápido
@@ -80,14 +82,15 @@ public class SortTest {
             }
         }
 
-        System.out.printf("\nAlgoritmo mais rápido: %s (%.4f ms)%n\n", algoritmos[melhorIdx], tempos[melhorIdx]);
+        builder.append(String.format("\nAlgoritmo mais rápido: %s (%.4f ms)\n", algoritmos[melhorIdx], tempos[melhorIdx]));
 
         // Imprime o resultado ordenado
         for (Node n : resultados[melhorIdx]) {
             String tamTXT = formatarTamanho(n.size);
             String tamGZ = (n.size_zip >= 0) ? formatarTamanho(n.size_zip) : "--";
-            System.out.printf("Nome: %-30s | Data: %s | TXT: %6s | GZ: %6s%n", n.data, n.date, tamTXT, tamGZ);
+            builder.append(String.format("Nome: %-30s | Data: %s | TXT: %6s | GZ: %6s\n", n.name, n.date, tamTXT, tamGZ));
         }
+        return builder.toString();
     }
 
     public String formatarTamanho(long bytes) {
@@ -96,5 +99,4 @@ public class SortTest {
         char prefix = "KMGTPE".charAt(exp - 1);
         return String.format("%.1f %sB", bytes / Math.pow(1024, exp), prefix);
     }
-
 }

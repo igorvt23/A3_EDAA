@@ -103,7 +103,7 @@ public class SortingAlgorithms {
     public static int comparar(Node a, Node b, String criterio) {
         switch (criterio) {
             case "nome":
-                return a.data.compareToIgnoreCase(b.data);
+                return a.name.compareToIgnoreCase(b.name);
             case "data":
                 return a.date.compareTo(b.date);
             case "tamanho":
