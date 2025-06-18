@@ -47,7 +47,6 @@ public class TextStorage {
         }
     }
 
-    // talvez valha a pena criar um objeto doc para essa ocasião
     public String readTxt(String title) {
         StringBuilder content = new StringBuilder();
 
@@ -57,7 +56,7 @@ public class TextStorage {
                 content.append(linha).append("\n");
             }
         } catch (IOException e) {
-            System.out.println("Erro ao ler o arquivo: " + e.getMessage());
+            return ("Erro ao ler o arquivo: " + e.getMessage());
         }
         if (content.length() > 0) content.setLength(content.length() - 1); // Remove o último '\n'
         return content.toString();

@@ -7,8 +7,7 @@ public class AVL implements Serializable {
     public void addNode(String word) { 
         root = addNodeRec(root, word);
     }
-
-    // atualmente ignora palavras repitidas // sem anotar repitições
+    
     public Node addNodeRec(Node tempRoot, String word) {
         if (tempRoot == null) return new Node(word); 
         
@@ -72,26 +71,25 @@ public class AVL implements Serializable {
                     tempRoot.frequency = aux.frequency;
                     tempRoot.right = removeNodeRec(tempRoot.right, aux.word);
                 }
-                
-                // atualiza a altura
-                tempRoot.height = 1 + Math.max(getHeight(tempRoot.left), getHeight(tempRoot.right));
+            }
+            // atualiza a altura
+            tempRoot.height = 1 + Math.max(getHeight(tempRoot.left), getHeight(tempRoot.right));
 
-                int balance = balance(tempRoot);
+            int balance = balance(tempRoot);
 
-                if (balance == -2 && word.compareToIgnoreCase(tempRoot.right.word) > 0) {
-                    return rotateLeft(tempRoot);
+            if (balance == -2 && word.compareToIgnoreCase(tempRoot.right.word) > 0) {
+                return rotateLeft(tempRoot);
 
-                } else if (balance == -2 && word.compareToIgnoreCase(tempRoot.right.word) < 0) {
-                    tempRoot.right = rotateRight(tempRoot.right);
-                    return rotateLeft(tempRoot);
+            } else if (balance == -2 && word.compareToIgnoreCase(tempRoot.right.word) < 0) {
+                tempRoot.right = rotateRight(tempRoot.right);
+                return rotateLeft(tempRoot);
 
-                } else if (balance == +2 && word.compareToIgnoreCase(tempRoot.left.word) < 0) {
-                    return rotateRight(tempRoot);
+            } else if (balance == +2 && word.compareToIgnoreCase(tempRoot.left.word) < 0) {
+                return rotateRight(tempRoot);
 
-                } else if (balance == +2 && word.compareToIgnoreCase(tempRoot.left.word) > 0) {
-                    tempRoot.left = rotateLeft(tempRoot.left);
-                    return rotateRight(tempRoot);
-                }
+            } else if (balance == +2 && word.compareToIgnoreCase(tempRoot.left.word) > 0) {
+                tempRoot.left = rotateLeft(tempRoot.left);
+                return rotateRight(tempRoot);
             }
             return tempRoot;
         }

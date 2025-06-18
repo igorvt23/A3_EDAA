@@ -21,29 +21,17 @@ public class ListService {
         }
     }
 
-    public void addNode(String dado, String data, long size) {
-        list.addNode(dado, data, size);
+    public void addNode(String dado, String data, long size, long sizeCompressed) {
+        list.addNode(dado, data, size, sizeCompressed);
     }
-
-    public String showList(Scanner scanner) {
-        int totalArquivos = list.countList();
-
-        if (totalArquivos > 0) {
-            String arquivo = list.showList(totalArquivos, scanner);
-
-            if (arquivo != null) {
-                list.chosenFile(arquivo);
-                return arquivo;
-            }
-        } else {
-            System.out.println("Não tem arquivos salvos!");
-        }
-
-        return null;
-    }
-
+    
     public void removeNode(String dado) {
         list.removeNode(dado);
+    }
+
+
+    public String showList() {
+        return list.showList();
     }
 
     public String saveList() {
@@ -56,6 +44,21 @@ public class ListService {
         }
     }
 
+    public String showListOPICIONAL(Scanner scanner) {
+        int totalArquivos = list.countList();
+
+        if (totalArquivos > 0) {
+            String arquivo = list.showListOPCIONAL(totalArquivos, scanner);
+            if (arquivo != null) {
+                list.chosenFile(arquivo);
+                return arquivo;
+            }
+        } else {
+            System.out.println("Não tem arquivos salvos!");
+        }
+
+        return null;
+    }
     @Deprecated
     public String getArquivo(int index) {
         return getArquivoByIndex(index);
@@ -64,10 +67,23 @@ public class ListService {
     // Usa método da classe List
     public String getArquivoByIndex(int index) {
         Node node = list.getNodeByIndex(index);
-        return node != null ? node.data : null;
+        return node != null ? node.name : null;
+    }
+
+    public Node getNodeIndex(int index) {
+        Node node = list.getNodeByIndex(index);
+        return node;
+    }
+
+    public int getCount() {
+        return list.countList();
     }
 
     public void addSizeFileCompressed(String nomeArquivo, long compressSize) {
         list.addSizeFileCompressed(nomeArquivo, compressSize);
+    }
+
+    public Node getStart() {
+        return list.getStar();
     }
 }

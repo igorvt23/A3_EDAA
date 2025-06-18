@@ -1,4 +1,5 @@
 package Lista;
+
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
@@ -9,8 +10,8 @@ import java.util.Scanner;
 public class List implements Serializable {
     Node start;
 
-    public void addNode(String dado, String data, long size) {
-        Node newNode = new Node(dado, data, size, 0);
+    public void addNode(String dado, String data, long size, long size_zip) {
+        Node newNode = new Node(dado, data, size, size_zip);
 
         if (start == null) {
             start = newNode;
@@ -29,13 +30,13 @@ public class List implements Serializable {
             System.out.println("Lista vazia impossivel remover No!");
             return;
         }
-        if (start.data.equals(dado)) {
+        if (start.name.equals(dado)) {
             start = start.next;
             System.out.println("No removido com sucesso (start)");
         } else {
             Node temp = start, prev = null;
             while (temp != null) {
-                if (temp.data.equals(dado)) {
+                if (temp.name.equals(dado)) {
                     prev.next = temp.next;
                     System.out.println("No removido com sucesso");
                     return;
@@ -48,21 +49,34 @@ public class List implements Serializable {
         }
     }
 
-    public String showList(int count, Scanner scanner) {
+    public String showList() {
+        StringBuilder builder = new StringBuilder();
+        if (start == null) return builder.append("Lista vazia!").toString(); 
         Node temp = start;
-        
+        while (temp != null) {
+            String nodeInf = (temp.name + "," + temp.date + "," + temp.size + "," + temp.size_zip + "\n"); 
+            builder.append(nodeInf);
+            temp = temp.next;
+        }
+        return builder.toString();
+    }
+
+// ----------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+    public String showListOPCIONAL(int count, Scanner scanner) {
+        Node temp = start;
+        // printa a lista (pode ser substituido)
         if (temp != null) {
             if (count == 0 || start == null) {
                 System.out.println("Lista vazia, não há arquivos escolhidos!");
                 return null;
             }
-
             int i = 1;
             while (temp != null) {
-                System.out.printf("%d. %s - %s - Tamanho: %d bytes - Comprimido: %d bytes\n", i++, temp.data, temp.date, temp.size, temp.size_zip);
+                System.out.printf("%d. %s - %s - Tamanho: %d bytes - Comprimido: %d bytes\n", i++, temp.name, temp.date, temp.size, temp.size_zip);
                 temp = temp.next;
             }
-
+            // prit da lista
             System.out.print("Escolha o índice do arquivo (0 para cancelar): ");
             int choice;
             try {
@@ -71,30 +85,25 @@ public class List implements Serializable {
                 System.out.println("Entrada inválida, operação cancelada.");
                 return null;
             }
-
             if (choice == 0) {
                 System.out.println("Operação cancelada.");
                 return null;
             }
-
             if (choice < 0 || choice > count) {
                 System.out.println("Escolha inválida, operação cancelada.");
                 return null;
             }
-
             // Buscar o Node correspondente ao índice escolhido
             temp = start;
             for (i = 1; i < choice; i++) {
                 temp = temp.next;
             }
-
             System.out.println("Lista impressa com suceso!");
-            return temp.data; // Retorna o "título" do txt (nome do arquivo)
+            return temp.name; // Retorna o "título" do txt (nome do arquivo)
         } else {
             System.out.println("Não tem arquivos salvos!");
             return null;
         }
-
     }
 
     public int countList() {
@@ -113,13 +122,11 @@ public class List implements Serializable {
     
     public void chosenFile(String title) {
         File file = new File("dados/txt/"+title+".txt");
-
         Node temp = start;
         while (temp != null) {
-            if (temp.data.equals(title)) {
+            if (temp.name.equals(title)) {
                 if (file.exists()) {
-                    System.out.println(temp.data + " - " + temp.size + " bytes");
-                    
+                    System.out.println(temp.name + " - " + temp.size + " bytes");
                     // Leitura do conteúdo do arquivo
                     try (BufferedReader reader = new BufferedReader(new FileReader(file))) {
                         String linha;
@@ -130,12 +137,10 @@ public class List implements Serializable {
                     } catch (IOException e) {
                         System.out.println("Erro ao ler o arquivo: " + e.getMessage());
                     }
-
                     // Verifica se existe versão comprimida
                     if (temp.size_zip > 0) {
                         System.out.println("Tamanho comprimido: " + temp.size_zip + " bytes");
                     }
-                    
                 } else {
                     System.out.println("Arquivo não encontrado!");
                 }
@@ -148,7 +153,7 @@ public class List implements Serializable {
     public void addSizeFileCompressed(String title, long size) {
         Node temp = start;
         while (temp != null) {
-            if (temp.data.equals(title)) {
+            if (temp.name.equals(title)) {
                 temp.size_zip = size;
                 return;
             }
@@ -159,7 +164,7 @@ public class List implements Serializable {
     public Node getNodeByName(String name) {
         Node current = start;
         while (current != null) {
-            if (current.data.equals(name)) {
+            if (current.name.equals(name)) {
                 return current;
             }
             current = current.next;
@@ -176,5 +181,9 @@ public class List implements Serializable {
             i++;
         }
         return null;
+    }
+
+    public Node getStar() {
+        return start;
     }
 }
