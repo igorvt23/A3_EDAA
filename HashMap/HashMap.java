@@ -65,7 +65,7 @@ public class HashMap implements Serializable {
             temp = temp.next;
         }
 
-        // Eu pedi o prompt mais simples possivel ele fez exatamente oq eu tava tentando evitar fazer (BAITA CHAT GPT)
+    
         if (temp != null) {
             builder.append(String.format("Palavra: [%s] | Pos no Hash: %03d | Ocorencias: %d:\n", word, code, temp.ocur.count));
 
